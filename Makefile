@@ -44,10 +44,10 @@ LDFLAGS = -O2
 
 all:  $(BINARYDIR)/simIris
 
-$(BINARYDIR)/simIris: $(OBJECTDIR)/simIris.o $(OBJECTDIR)/nucleus.o $(OBJECTDIR)/reacParams.o $(OBJECTDIR)/geoParams.o $(OBJECTDIR)/dedx.o $(OBJECTDIR)/dwba.o $(OBJECTDIR)/EnergyLossManager.o $(OBJECTDIR)/shieldClear.o $(LIBDIR)/libSimEvent.so $(OBJECTDIR)/SimEventDict.o
+$(BINARYDIR)/simIris: $(OBJECTDIR)/simIris.o $(OBJECTDIR)/nucleus.o $(OBJECTDIR)/reacParams.o $(OBJECTDIR)/geoParams.o $(OBJECTDIR)/dedx.o $(OBJECTDIR)/dwba.o $(OBJECTDIR)/EnergyLossManager.o $(OBJECTDIR)/shieldClear.o $(LIBDIR)/libSimEvent.so
 	$(CXX) -o $@ $(CXXFLAGS) $^ $(CATIMALIBDIR) $(ROOTGLIBS) $(CATIMALIBS) -lm -lz -lutil -lpthread -lrt
 #remove -lnsl and -lrt for macOS
-$(LIBDIR)/libSimEvent.so: $(OBJECTDIR)/PTrack.o $(OBJECTDIR)/YYHit.o $(OBJECTDIR)/IPhys.o $(OBJECTDIR)/CsIHit.o $(OBJECTDIR)/S3Hit.o $(OBJECTDIR)/IDet.o $(OBJECTDIR)/SimEventDict.o
+$(LIBDIR)/libSimEvent.so: $(OBJECTDIR)/PTrack.o $(OBJECTDIR)/IRISHit.o $(OBJECTDIR)/YYHit.o $(OBJECTDIR)/IPhys.o $(OBJECTDIR)/CsIHit.o $(OBJECTDIR)/S3Hit.o $(OBJECTDIR)/IDet.o $(OBJECTDIR)/SimEventDict.o
 	$(LD) $(SOFLAGS) $(LDFLAGS) $(ROOTGLIBS) $^ -o $@
 	@echo "$@ done"
 
@@ -78,6 +78,9 @@ $(OBJECTDIR)/shieldClear.o: $(SOURCEDIR)/shieldClear.cxx
 $(OBJECTDIR)/IDet.o: $(SOURCEDIR)/IDet.cxx
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
+$(OBJECTDIR)/IRISHit.o: $(SOURCEDIR)/IRISHit.cxx
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
 $(OBJECTDIR)/YYHit.o: $(SOURCEDIR)/YYHit.cxx
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
@@ -96,7 +99,7 @@ $(OBJECTDIR)/PTrack.o: $(SOURCEDIR)/PTrack.cxx
 $(OBJECTDIR)/SimEventDict.o: $(LIBDIR)/SimEventDict.cxx
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-$(LIBDIR)/SimEventDict.cxx:  $(INCLUDEDIR)/PTrack.h $(INCLUDEDIR)/YYHit.h $(INCLUDEDIR)/IPhys.h $(INCLUDEDIR)/CsIHit.h $(INCLUDEDIR)/S3Hit.h $(INCLUDEDIR)/IDet.h $(INCLUDEDIR)/SimEventLinkDef.h
+$(LIBDIR)/SimEventDict.cxx:  $(INCLUDEDIR)/PTrack.h $(INCLUDEDIR)/IRISHit.h $(INCLUDEDIR)/YYHit.h $(INCLUDEDIR)/IPhys.h $(INCLUDEDIR)/CsIHit.h $(INCLUDEDIR)/S3Hit.h $(INCLUDEDIR)/IDet.h $(INCLUDEDIR)/SimEventLinkDef.h
 	@echo "Generating dictionary $@..."
 	@rootcint -f $@ -c $(HEADER) $(CATIMAINC) $(CATIMADEF) $^
 
