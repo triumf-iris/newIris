@@ -34,14 +34,13 @@ void nucleus::Clear()
 void nucleus::ReadFile(std::string binpath, int inputA, std::string inpEl)
 {
 	std::string massfilename, rctfilename1, rctfilename2;
-	if(binpath.length()<8)
+	if(binpath.empty())
 	{
 		massfilename = "../ame/mass.mas12";
 		rctfilename1 = "../ame/rct1.mas12";
 		rctfilename2 = "../ame/rct2.mas12";
 	}
 	else{
-		binpath.erase(binpath.end()-11,binpath.end());
 		massfilename = binpath + "ame/mass.mas12";
 		rctfilename1 = binpath + "ame/rct1.mas12";
 		rctfilename2 = binpath + "ame/rct2.mas12";
@@ -173,13 +172,11 @@ void nucleus::ReadFile(std::string binpath, int inputA, std::string inpEl)
 void nucleus::getInfo(std::string binpath, int inputN, int inputZ)
 {
 	std::string massfilename;
-	if(binpath.length()<8)
+	if(binpath.empty())
 	{
 		massfilename = "../ame/mass.mas12";
 	}
 	else{
-		massfilename = binpath;
-		massfilename.erase(massfilename.end()-11,massfilename.end());
 		massfilename = massfilename + "ame/mass.mas12";
 	}
 

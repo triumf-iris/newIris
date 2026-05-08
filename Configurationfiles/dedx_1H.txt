@@ -1,0 +1,10 @@
+Ag=LISE_dedx/lise_1H_in_Ag.txt
+TGT=LISE_dedx/lise_1H_in_D.txt
+Si=LISE_dedx/lise_1H_in_Si.txt
+Al=LISE_dedx/lise_1H_in_Al.txt
+B=LISE_dedx/lise_1H_in_B.txt
+My=LISE_dedx/lise_1H_in_My.txt
+P=LISE_dedx/lise_1H_in_P.txt
+SiO2=LISE_dedx/lise_1H_in_SiO2.txt
+Iso=LISE_dedx/lise_1H_in_C4H10.txt
+Window=LISE_dedx/lise_1H_in_Si3N4.txt

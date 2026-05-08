@@ -8,7 +8,7 @@ OBJECTDIR = $(BASEDIR)/obj
 BINARYDIR = $(BASEDIR)/bin
 HEADER = -I$(INCLUDEDIR) #-I$(TREEIRIS)/include
 
-USE_CATIMA ?= 0
+USE_CATIMA ?= 1
 
 CATIMAPATH ?= /home/iris/curtis/NewIris/catima/install
 CATIMALIBDIR =
@@ -42,16 +42,23 @@ LDFLAGS = -O2
 #SOFLAGS       = -g -dynamiclib -shared
 #LDFLAGS       = -O2 -undefined dynamic_lookup
 
-all:  $(BINARYDIR)/simIris
+all:  $(BINARYDIR)/simIris $(BINARYDIR)/physIris
 
-$(BINARYDIR)/simIris: $(OBJECTDIR)/simIris.o $(OBJECTDIR)/nucleus.o $(OBJECTDIR)/reacParams.o $(OBJECTDIR)/geoParams.o $(OBJECTDIR)/dedx.o $(OBJECTDIR)/dwba.o $(OBJECTDIR)/EnergyLossManager.o $(OBJECTDIR)/shieldClear.o $(LIBDIR)/libSimEvent.so
+$(BINARYDIR)/simIris: $(OBJECTDIR)/simIris.o $(OBJECTDIR)/reacParams.o $(OBJECTDIR)/geoParams.o $(OBJECTDIR)/dwba.o $(OBJECTDIR)/shieldClear.o $(LIBDIR)/libIRISEvent.so
 	$(CXX) -o $@ $(CXXFLAGS) $^ $(CATIMALIBDIR) $(ROOTGLIBS) $(CATIMALIBS) -lm -lz -lutil -lpthread -lrt
+
+$(BINARYDIR)/physIris: $(OBJECTDIR)/physIris.o $(OBJECTDIR)/eloss.o $(OBJECTDIR)/runDepPar.o $(OBJECTDIR)/HandlePHYSICS.o $(OBJECTDIR)/CalibPHYSICS.o $(OBJECTDIR)/Graphsdedx.o $(OBJECTDIR)/geometry.o $(LIBDIR)/libIRISEvent.so
+	$(CXX) -o $@ $(CXXFLAGS) $^ $(CATIMALIBDIR) $(ROOTGLIBS) $(CATIMALIBS) -lm -lz -lutil -lpthread -lrt
+
 #remove -lnsl and -lrt for macOS
-$(LIBDIR)/libSimEvent.so: $(OBJECTDIR)/PTrack.o $(OBJECTDIR)/IRISHit.o $(OBJECTDIR)/YYHit.o $(OBJECTDIR)/IPhys.o $(OBJECTDIR)/CsIHit.o $(OBJECTDIR)/S3Hit.o $(OBJECTDIR)/IDet.o $(OBJECTDIR)/SimEventDict.o
-	$(LD) $(SOFLAGS) $(LDFLAGS) $(ROOTGLIBS) $^ -o $@
+$(LIBDIR)/libIRISEvent.so: $(OBJECTDIR)/TEvent.o $(OBJECTDIR)/ITdc.o $(OBJECTDIR)/nucleus.o $(OBJECTDIR)/dedx.o $(OBJECTDIR)/PTrack.o $(OBJECTDIR)/IRISHit.o $(OBJECTDIR)/YYHit.o $(OBJECTDIR)/IPhys.o $(OBJECTDIR)/CsIHit.o $(OBJECTDIR)/S3Hit.o $(OBJECTDIR)/IDet.o  $(OBJECTDIR)/IScaler.o $(OBJECTDIR)/EnergyLossManager.o $(OBJECTDIR)/IRISEventDict.o
+	$(LD) $(SOFLAGS) $(LDFLAGS) $(CATIMALIBDIR) $(ROOTGLIBS) $(CATIMALIBS) $^ -o $@
 	@echo "$@ done"
 
-$(OBJECTDIR)/simIris.o: $(SOURCEDIR)/main.cxx
+$(OBJECTDIR)/simIris.o: $(SOURCEDIR)/mainSim.cxx
+	$(CXX) $(CXXFLAGS) -c $< -o $@ 
+
+$(OBJECTDIR)/physIris.o: $(SOURCEDIR)/mainPhys.cxx
 	$(CXX) $(CXXFLAGS) -c $< -o $@ 
 
 $(OBJECTDIR)/reacParams.o: $(SOURCEDIR)/reacParams.cxx
@@ -96,19 +103,47 @@ $(OBJECTDIR)/S3Hit.o: $(SOURCEDIR)/S3Hit.cxx
 $(OBJECTDIR)/PTrack.o: $(SOURCEDIR)/PTrack.cxx
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-$(OBJECTDIR)/SimEventDict.o: $(LIBDIR)/SimEventDict.cxx
+$(OBJECTDIR)/HandlePHYSICS.o: $(SOURCEDIR)/HandlePHYSICS.cxx
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-$(LIBDIR)/SimEventDict.cxx:  $(INCLUDEDIR)/PTrack.h $(INCLUDEDIR)/IRISHit.h $(INCLUDEDIR)/YYHit.h $(INCLUDEDIR)/IPhys.h $(INCLUDEDIR)/CsIHit.h $(INCLUDEDIR)/S3Hit.h $(INCLUDEDIR)/IDet.h $(INCLUDEDIR)/SimEventLinkDef.h
+$(OBJECTDIR)/eloss.o: $(SOURCEDIR)/eloss.cxx
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+$(OBJECTDIR)/runDepPar.o: $(SOURCEDIR)/runDepPar.cxx
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+$(OBJECTDIR)/geometry.o: $(SOURCEDIR)/geometry.cxx
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+$(OBJECTDIR)/Graphsdedx.o: $(SOURCEDIR)/Graphsdedx.cxx
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+$(OBJECTDIR)/CalibPHYSICS.o: $(SOURCEDIR)/CalibPHYSICS.cxx
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+$(OBJECTDIR)/ITdc.o: $(SOURCEDIR)/ITdc.cxx
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+$(OBJECTDIR)/IScaler.o: $(SOURCEDIR)/IScaler.cxx
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+$(OBJECTDIR)/TEvent.o: $(SOURCEDIR)/TEvent.cxx
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+$(OBJECTDIR)/IRISEventDict.o: $(LIBDIR)/IRISEventDict.cxx
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+$(LIBDIR)/IRISEventDict.cxx: $(INCLUDEDIR)/TEvent.h $(INCLUDEDIR)/PTrack.h $(INCLUDEDIR)/IRISHit.h $(INCLUDEDIR)/YYHit.h $(INCLUDEDIR)/IPhys.h $(INCLUDEDIR)/CsIHit.h $(INCLUDEDIR)/S3Hit.h $(INCLUDEDIR)/IDet.h $(INCLUDEDIR)/ITdc.h $(INCLUDEDIR)/IScaler.h $(INCLUDEDIR)/IRISEventLinkDef.h
 	@echo "Generating dictionary $@..."
 	@rootcint -f $@ -c $(HEADER) $(CATIMAINC) $(CATIMADEF) $^
 
 clean::
 	rm -f $(OBJECTDIR)/*.o
 	rm -f $(BINARYDIR)/simIris
+	rm -f $(BINARYDIR)/physIris
 	rm -f $(LIBDIR)/*Dict.cxx
 	rm -f $(LIBDIR)/*Dict.h
 	rm -f $(LIBDIR)/*.pcm
-	rm -f $(LIBDIR)/libSimEvent.so
+	rm -f $(LIBDIR)/libIRISEvent.so
 
 # end 

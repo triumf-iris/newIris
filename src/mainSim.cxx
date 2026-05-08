@@ -126,6 +126,8 @@ int main(int argc, char *argv[])
 
 	std::string binpath(argv[0]);
 	printf("%s\n", binpath.data());
+	std::string IRISdir = binpath;
+	IRISdir.erase(IRISdir.end()-11,IRISdir.end());
 
 	if (argc > 1)
 	{

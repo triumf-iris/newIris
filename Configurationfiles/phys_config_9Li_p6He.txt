@@ -1,0 +1,9 @@
+RUNLIST=/runlog_lastrun.txt
+GATEFILE=/home/iris/curtis/NewIris/newIRIS/Configurationfiles/Gates/alpha.root
+GATENAME=alpha
+DEDX_I=/home/iris/curtis/NewIris/newIRIS/Configurationfiles/dedx_12C.txt
+DEDX_L=/home/iris/curtis/NewIris/newIRIS/Configurationfiles/dedx_1H.txt
+DEDX_H=/home/iris/curtis/NewIris/newIRIS/Configurationfiles/dedx_12C.txt
+RUNDEPPAR=/home/iris/curtis/NewIris/newIRIS/Configurationfiles/runDepPar.txt
+GEOMETRY=/home/iris/curtis/NewIris/newIRIS/Configurationfiles/geometry.txt
+USE_ICGATES!

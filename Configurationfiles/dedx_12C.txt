@@ -1,0 +1,10 @@
+Ag=/home/iris/curtis/NewIris/newIRIS/Configurationfiles/LISE_dedx/lise_12C_in_Ag.txt
+TGT=/home/iris/curtis/NewIris/newIRIS/Configurationfiles/LISE_dedx/lise_12C_in_H.txt
+Si=/home/iris/curtis/NewIris/newIRIS/Configurationfiles/LISE_dedx/lise_12C_in_Si.txt
+Al=/home/iris/curtis/NewIris/newIRIS/Configurationfiles/LISE_dedx/lise_12C_in_Al.txt
+B=/home/iris/curtis/NewIris/newIRIS/Configurationfiles/LISE_dedx/lise_12C_in_B.txt
+My=/home/iris/curtis/NewIris/newIRIS/Configurationfiles/LISE_dedx/lise_12C_in_My.txt
+P=/home/iris/curtis/NewIris/newIRIS/Configurationfiles/LISE_dedx/lise_12C_in_P.txt
+SiO2=/home/iris/curtis/NewIris/newIRIS/Configurationfiles/LISE_dedx/lise_12C_in_SiO2.txt
+Iso=/home/iris/curtis/NewIris/newIRIS/Configurationfiles/LISE_dedx/lise_12C_in_C4H10.txt
+Window=/home/iris/curtis/NewIris/newIRIS/Configurationfiles/LISE_dedx/lise_12C_in_Si3N4.txt

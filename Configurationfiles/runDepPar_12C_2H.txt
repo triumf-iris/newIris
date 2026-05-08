@@ -1,0 +1,8 @@
+EBAC=120		//20Mg Accel energy
+A=12C
+a=2H
+B=12C
+b=2H
+//Q=0
+ICMIN=0
+ICMAX=4000
