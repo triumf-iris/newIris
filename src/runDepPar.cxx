@@ -1,5 +1,6 @@
 //Run dependent parameters in BOR AS
 #include "runDepPar.h"
+#include <cstring>
 
 runDep::runDep(){
 }
@@ -9,7 +10,7 @@ void runDep::setRunDepPar(std::string filename)
 	ICmin=0;
 	ICmax=0;
 	Q=0.;
-	bool_runPar = kFALSE;
+	bool_runPar = false;
 	
 	char buffer[256];
 	FILE * parFile;
@@ -37,7 +38,7 @@ void runDep::setRunDepPar(std::string filename)
 		if (*val==0) printf("Value missing for parameter %s",buffer);
 		
 		// parse float parameter (if any)
-		Double_t v;
+		double v;
 		char cval[256];	
 		std::string strval;
 		sscanf(val,"%lf",&v);
@@ -57,7 +58,7 @@ void runDep::setRunDepPar(std::string filename)
 		if (strcmp(buffer,"Q")==0)	  	Q = v;
 		if (strcmp(buffer,"RUNPAR")==0){  	
 			runPar = strval;
-			bool_runPar = kTRUE;
+			bool_runPar = true;
 		}
 	}
 	fclose(parFile);
@@ -71,6 +72,6 @@ void runDep::Print()
 	printf("IC energy gate: min=%f\tmax=%f\n\n",ICmin,ICmax);
 	printf("Q value for ground state%lf\n",Q);
 
-	if(bool_runPar==kTRUE) printf("Run dependant energy and target thickness from %s\n",runPar.data());
+	if(bool_runPar==true) printf("Run dependant energy and target thickness from %s\n",runPar.data());
 	else printf("No run dependant energy and target thickness.\n");
 }

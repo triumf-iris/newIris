@@ -79,8 +79,8 @@ class ITdc : public TObject {
                 std::vector<uint16_t> TChannel;
                 std::vector<uint32_t> TTDC;
 
-  		void Clear();
-  		ClassDef(ITdc,1)
+  		void Clear(Option_t *option = "") override;
+  		ClassDefOverride(ITdc,1)
 };
 #endif
 // end

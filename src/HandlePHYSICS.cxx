@@ -159,8 +159,7 @@ void getRunPar(Int_t runNo)
 	else  {
 		printf("Reading config file '%s'\n",runDepPar.runPar.data());
 	
-		while (!feof(pFile)){
-			fscanf(pFile,"%d\t%lf\t%lf\n",&i,&a,&b);
+		while (fscanf(pFile,"%d\t%lf\t%lf\n",&i,&a,&b) == 3){
 			//printf("%d\t%lf\t%lf\n",i,a,b);
 			if(i==runNo){ 
 				run_for_corr = i;
@@ -254,8 +253,7 @@ void HandleBOR_PHYSICS(std::string BinPath, std::string Directory, std::string C
  	else  {
 		printf("Reading run List '%s'\n",calPhys.fileRunList.data());
 
-		while (!feof(rFile)){
-			fgets(rLine,256,rFile);
+		while (fgets(rLine,256,rFile) != NULL){
 			printf("%s",rLine);
        		sscanf(rLine,"%*s %*s %*s %d",&runTmp);
 			if(runs.size()==0 || runTmp>runs.at(runs.size()-1)) runs.push_back(runTmp);

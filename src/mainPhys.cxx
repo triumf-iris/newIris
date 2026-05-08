@@ -114,7 +114,7 @@ int main(int argc, char *argv[])
 	}
 	
 	bool have_output= false;
-	bool have_calib= false;
+	//bool have_calib= false;
 
    	for (unsigned int i=1; i<args.size(); i++) // loop over the commandline options
  	{
@@ -136,15 +136,15 @@ int main(int argc, char *argv[])
 		}
 		else if (strncmp(arg,"-c=",3)==0){  // Calibration file 
 	 		gCalibFile = arg+3;
-			have_calib=true;
+			//have_calib=true;
 		}
        	else if (strncmp(arg,"-c",2)==0){  // Calibration file 
 	 		gCalibFile = arg+2;
-			have_calib=true;
+			//have_calib=true;
 		}
       	else if (strncmp(arg,"--config=",9)==0){  // Calibration file 
 	 		gCalibFile = arg+9;
-			have_calib=true;
+			//have_calib=true;
 		}
        	else if (strcmp(arg,"-h")==0)
 	 		help(); // does not return

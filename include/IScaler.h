@@ -23,8 +23,8 @@ class IScaler : public TObject {
   		Int_t AccepTrigRate;
   		Int_t FreeTrigRate;
 
-  		void Clear();
-  		ClassDef(IScaler,1)
+  		void Clear(Option_t *option = "") override;
+  		ClassDefOverride(IScaler,1)
 };
 
 

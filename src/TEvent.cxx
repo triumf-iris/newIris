@@ -3,6 +3,9 @@
 #include <math.h>
 #include "TEvent.h"
 
+
+ClassImp(TEvent);
+
 TEvent::TEvent() {
 	//TEvent::Class()->IgnoreTObjectStreamer();
 	TEvent::Clear();
@@ -15,7 +18,7 @@ TEvent::TEvent(const TEvent &evt) : TObject(evt) //
 	((TEvent&)evt).Copy(*this);
 }
 
-void TEvent::Clear(){
+void TEvent::Clear(Option_t *option){
 
 	fEBAC = sqrt(-1.);
 	fmA = sqrt(-1.);

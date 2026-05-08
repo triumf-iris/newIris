@@ -2,11 +2,14 @@
 
 #include "IScaler.h"
 #include <math.h>
+
+ClassImp(IScaler);
+
 IScaler::IScaler(){
   	IScaler::Clear();
 }
 
-void IScaler::Clear()
+void IScaler::Clear(Option_t *option)
 {
 	EventID = 0;
 

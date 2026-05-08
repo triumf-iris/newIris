@@ -222,44 +222,44 @@ int main(int argc, char *argv[])
 	Double_t reacX, reacY, reacZ;
 	if (isSHTReac)
 	{
-		A.getInfo(binpath, reacPrm.A);
+		A.getInfo(IRISdir, reacPrm.A);
 		A.Print();
-		a.getInfo(binpath, reacPrm.a);
+		a.getInfo(IRISdir, reacPrm.a);
 		a.Print();
-		B.getInfo(binpath, reacPrm.B);
+		B.getInfo(IRISdir, reacPrm.B);
 		B.Print();
-		b.getInfo(binpath, reacPrm.b);
+		b.getInfo(IRISdir, reacPrm.b);
 		b.Print();
 	}
 	else
 	{
-		A.getInfo(binpath, reacPrm.A);
+		A.getInfo(IRISdir, reacPrm.A);
 		A.Print();
-		a.getInfo(binpath, reacPrm.foil);
+		a.getInfo(IRISdir, reacPrm.foil);
 		a.Print();
-		B.getInfo(binpath, reacPrm.B);
+		B.getInfo(IRISdir, reacPrm.B);
 		B.Print();
-		b.getInfo(binpath, reacPrm.foil);
+		b.getInfo(IRISdir, reacPrm.foil);
 		b.Print();
 	}
 	if (reacPrm.N > 2)
 	{
-		c.getInfo(binpath, reacPrm.c);
+		c.getInfo(IRISdir, reacPrm.c);
 		c.Print();
 	}
 	if (reacPrm.N > 3)
 	{
-		d.getInfo(binpath, reacPrm.d);
+		d.getInfo(IRISdir, reacPrm.d);
 		d.Print();
 	}
 	if (reacPrm.N > 4)
 	{
-		e.getInfo(binpath, reacPrm.e);
+		e.getInfo(IRISdir, reacPrm.e);
 		e.Print();
 	}
 	if (reacPrm.N > 5)
 	{
-		f.getInfo(binpath, reacPrm.f);
+		f.getInfo(IRISdir, reacPrm.f);
 		f.Print();
 	}
 
@@ -314,10 +314,10 @@ int main(int argc, char *argv[])
 			seqdec = kTRUE;
 			printf("\nSequential 1n- decay!\n\n");
 			seqdecN = 2;
-			decB.getInfo(binpath, B.N - 1, B.Z);
+			decB.getInfo(IRISdir, B.N - 1, B.Z);
 			decB.Print();
 			mBdec = decB.mass / 1000.;
-			decc.getInfo(binpath, "n");
+			decc.getInfo(IRISdir, "n");
 			decc.Print();
 			mcdec = decc.mass / 1000.;
 			break;
@@ -325,10 +325,10 @@ int main(int argc, char *argv[])
 			seqdec = kTRUE;
 			printf("\nSequential 1p- decay!\n\n");
 			seqdecN = 2;
-			decB.getInfo(binpath, B.N, B.Z - 1);
+			decB.getInfo(IRISdir, B.N, B.Z - 1);
 			decB.Print();
 			mBdec = decB.mass / 1000.;
-			decc.getInfo(binpath, "p");
+			decc.getInfo(IRISdir, "p");
 			decc.Print();
 			mcdec = decc.mass / 1000.;
 			break;
@@ -336,13 +336,13 @@ int main(int argc, char *argv[])
 			seqdec = kTRUE;
 			printf("\nSequential 2n- decay!\n\n");
 			seqdecN = 3;
-			decB.getInfo(binpath, B.N - 2, B.Z);
+			decB.getInfo(IRISdir, B.N - 2, B.Z);
 			decB.Print();
 			mBdec = decB.mass / 1000.;
-			decc.getInfo(binpath, "n");
+			decc.getInfo(IRISdir, "n");
 			decc.Print();
 			mcdec = decc.mass / 1000.;
-			decd.getInfo(binpath, "n");
+			decd.getInfo(IRISdir, "n");
 			decd.Print();
 			mddec = decd.mass / 1000.;
 			break;
@@ -350,13 +350,13 @@ int main(int argc, char *argv[])
 			seqdec = kTRUE;
 			printf("\nSequential 2p- decay!\n\n");
 			seqdecN = 3;
-			decB.getInfo(binpath, B.N, B.Z - 2);
+			decB.getInfo(IRISdir, B.N, B.Z - 2);
 			decB.Print();
 			mBdec = decB.mass / 1000.;
-			decc.getInfo(binpath, "p");
+			decc.getInfo(IRISdir, "p");
 			decc.Print();
 			mcdec = decc.mass / 1000.;
-			decd.getInfo(binpath, "p");
+			decd.getInfo(IRISdir, "p");
 			decd.Print();
 			mddec = decd.mass / 1000.;
 			break;

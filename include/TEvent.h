@@ -126,10 +126,10 @@ class TEvent : public TObject {
 		Double_t fThetacmUSd;
 		Double_t fThetaDUSd;
 		
-		void Clear();	//! Clear values
+		void Clear(Option_t *option = "") override;	//! Clear values
 		
 	private:
 		Int_t fRun; // Current run number
-		ClassDef(TEvent,4) // Version
+		ClassDefOverride(TEvent,4) // Version
 };
 #endif

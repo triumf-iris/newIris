@@ -1,37 +1,36 @@
 // experiment geometry
 #ifndef geometry_H
 #define geometry_H
-#include <TObject.h>
-#include <TClass.h>
 #include <string>
 
-class geometry : public TObject {
-	public:
-		geometry(); 
-		virtual ~geometry() {} //! 
-		
-		Double_t TargetThickness;
-		Int_t TargetOrientation;
-		Double_t FoilThickness;
-		Double_t xShift;
-		Double_t yShift;
-		Double_t YdThickness[8];
-		Double_t YdDistance;
-		Double_t YuThickness[8];
-		Double_t YuDistance;
-		Double_t YdInnerRadius;
-		Double_t YdOuterRadius;
-		Double_t Sd1Thickness;
-		Double_t Sd1Distance;
-		Double_t Sd2Thickness;
-		Double_t Sd2Distance;
-		Double_t SuThickness;
-		Double_t SuDistance;
-		Double_t SdInnerRadius;
-		Double_t SdOuterRadius;
+class geometry
+{
+public:
+	geometry();
+	virtual ~geometry() {} //!
 
-		void ReadGeometry(std::string);
-		void Print();
+	double TargetThickness;
+	int TargetOrientation;
+	double FoilThickness;
+	double xShift;
+	double yShift;
+	double YdThickness[8];
+	double YdDistance;
+	double YuThickness[8];
+	double YuDistance;
+	double YdInnerRadius;
+	double YdOuterRadius;
+	double Sd1Thickness;
+	double Sd1Distance;
+	double Sd2Thickness;
+	double Sd2Distance;
+	double SuThickness;
+	double SuDistance;
+	double SdInnerRadius;
+	double SdOuterRadius;
+
+	void ReadGeometry(std::string);
+	void Print();
 };
 #endif
 // end

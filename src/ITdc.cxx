@@ -2,11 +2,14 @@
 
 #include "ITdc.h"
 #include <math.h>
+
+ClassImp(ITdc);
+
 ITdc::ITdc(){
   ITdc::Clear();
 }
 
-void ITdc::Clear()
+void ITdc::Clear(Option_t *option)
 {
 	TICTMul = 0;
 	TICTDC.clear();
