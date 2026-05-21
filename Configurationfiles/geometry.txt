@@ -29,3 +29,5 @@ XSHIFT=0.
 YSHIFT=0.
 TARGET_THICKNESS=2.01 // mg/cm^2, changed to 53.85*0.1*0.087 from 50*0.1*0.201
 FOIL_THICKNESS= 4.33 //changed to 4.33 from 4.816
+FOIL=Ag			
+TARGET=D		

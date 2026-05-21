@@ -28,6 +28,8 @@ public:
 	double SuDistance;
 	double SdInnerRadius;
 	double SdOuterRadius;
+	std::string MFoil;
+	std::string MTgt;	
 
 	void ReadGeometry(std::string);
 	void Print();

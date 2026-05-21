@@ -26,6 +26,7 @@ public:
 	std::string fileIdedx;
 	std::string fileLdedx;
 	std::string fileHdedx;
+	std::string filededx;
 	std::string fileRunDepPar;
 	std::string fileGeometry;
 	std::string fileTCorrIC;
@@ -47,6 +48,7 @@ public:
 	bool boolIdedx;
 	bool boolLdedx;
 	bool boolHdedx;
+	bool booldedx;
 	bool boolRunDepPar;
 	bool boolGeometry;
 	bool boolEssential;

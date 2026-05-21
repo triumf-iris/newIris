@@ -23,5 +23,11 @@ Double_t thickness(Double_t, Double_t, TGraph *);//initial energy and final ener
 Double_t thickness(Double_t, Double_t, Double_t[100], Double_t[100]);
 
 Double_t fncBethe(Double_t *x, Double_t *par); //Bethe like function for fitting    
+
+double eval(double, std::array<double, 100>, std::array<double, 100>);
+double eloss(nucleus, double, double, double, IrisMaterial);
+double eloss(nucleus, double, double, double, std::array<double, 100>, std::array<double, 100>);
+double elossFi(nucleus, double, double, IrisMaterial);
+double elossFi(double, double, std::array<double, 100>, std::array<double, 100>);
 #endif
 // end

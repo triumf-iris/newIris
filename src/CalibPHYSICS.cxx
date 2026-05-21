@@ -138,6 +138,11 @@ void CalibPHYSICS::ReadFilenames(char *line)
 		fileHdedx += strval;
 		boolHdedx = true;
 	}
+	if (strcmp(line, "DEDX_X") == 0)
+	{
+		filededx += strval;
+		booldedx = true;
+	}
 	if (strcmp(line, "RUNDEPPAR") == 0)
 	{
 		fileRunDepPar += strval;

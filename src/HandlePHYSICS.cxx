@@ -413,6 +413,13 @@ void HandleBOR_PHYSICS(std::string BinPath, std::string Directory, std::string C
 	
 		printf("Beam energy: %f\n", runDepPar.energy);
 		// printf("Target thickness: %f\n",geoP.TargetThickness);
+
+		if(calPhys.booldedx==kTRUE) {
+			auto dedxstr = calPhys.filededx;
+			beam.EL.loadIncomingELoss(dedxstr, beam.name.data(), geoP.MFoil, geoP.MTgt, beam.mass);
+			lej.EL.loadOutgoingELoss(dedxstr, lej.name.data(), geoP.MFoil, geoP.MTgt, lej.mass);
+			hej.EL.loadOutgoingELoss(dedxstr, hej.name.data(), geoP.MFoil, geoP.MTgt, hej.mass);
+		}
 	
 		if(calPhys.boolIdedx==kTRUE){
 			printf("\n\nLoading dedx Graphs for incoming %s ...\n",runDepPar.nA.data());

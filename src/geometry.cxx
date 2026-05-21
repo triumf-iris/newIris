@@ -65,8 +65,12 @@ void geometry::ReadGeometry(std::string filename)
 			// parse float parameter (if any)
 			double v;
 			int vi;
+			char cval[256];
+			std::string vstr;
 			sscanf(val, "%lf", &v);
 			sscanf(val, "%d", &vi);
+			sscanf(val, "%s", cval);
+			vstr = cval;
 
 			if (strcmp(buffer, "YD1_THICKNESS") == 0)
 				YdThickness[0] = v;
@@ -134,6 +138,10 @@ void geometry::ReadGeometry(std::string filename)
 				TargetOrientation = vi;
 			if (strcmp(buffer, "FOIL_THICKNESS") == 0)
 				FoilThickness = v;
+			if (strcmp(buffer,"FOIL")==0)
+	   			MFoil= vstr;	
+			if (strcmp(buffer,"TARGET")==0)
+	   			MTgt = vstr;	
 		}
 		fclose(parFile);
 	}
@@ -161,4 +169,6 @@ void geometry::Print()
 	printf("Distance upstream S3: %.1f mm\n", SuDistance);
 	printf("Inner radius S3: %.1f mm\n", SdInnerRadius);
 	printf("Outer radius S3: %.1f mm\n", SdOuterRadius);
+	printf("Foil:\t Material: %s\tthickness: %.2lf mg/cm2\n",MFoil.data(),FoilThickness);
+	printf("Target:\t Material: %s\tthickness: %.1lf mg/cm2\n",MTgt.data(),TargetThickness);
 }
