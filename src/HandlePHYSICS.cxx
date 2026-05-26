@@ -19,6 +19,7 @@
 #include "CalibPHYSICS.h"
 #include "Graphsdedx.h"
 #include "geometry.h"
+#include "IrisMaterial.h"
 
 //#define pd // (p,d) reaction analysis
 extern TEvent *IrisEvent;
@@ -178,42 +179,42 @@ void getRunPar(Int_t runNo)
 	}
 }
 
-void calculateBeamEnergy(Double_t E)
+void calculateBeamEnergy(nucleus A, Double_t E)
 {
 	runDepPar.EBAC = E;
 	printf("New Beam Energy: %f\n" ,E);
 	Double_t temp_E = E;
 	Double_t HalfTargE;
 	if(calPhys.boolIC==kTRUE){
-		E = E-eloss(E,ICWindow1,eAWndw,dedxAWndw);  
-		E = E-eloss(E,ICLength,eAIso,dedxAIso)/ICELossCorr;  
-		E = E-eloss(E,ICWindow2,eAWndw,dedxAWndw);  
+		E = E - eloss(A, 0.5, E, ICWindow1, IrisMaterial::Si3N4);  
+		E = E - eloss(A, 0.586, E, ICLength, IrisMaterial::C4H10)/ICELossCorr;  
+		E = E - eloss(A, 0.5, E, ICWindow2, IrisMaterial::Si3N4);  
 		printf("Energy loss in IC (including windows): %.3f MeV\n" ,temp_E-E);
 
 		temp_E = E;
 	}
 	if(geoP.TargetOrientation==kTRUE){//foil facing downstream of target
-		E = E-eloss(E,geoP.TargetThickness/2.,eATgt,dedxATgt);  
+		E = E-eloss(A, 1., E, geoP.TargetThickness/2., IrisMaterial::Target);  
 		printf("Energy loss in half target: %.3f MeV\n" ,temp_E-E);
 		printf("Beam energy in center of target: %.3f MeV\n" ,E);
 		HalfTargE = E;
-		E = E-eloss(E,geoP.TargetThickness/2.,eATgt,dedxATgt);// eloss in remainder of target  
+		E = E-eloss(A, 1., E, geoP.TargetThickness/2., IrisMaterial::Target);// eloss in remainder of target  
 
 		temp_E = E;
 
-		if(geoP.FoilThickness>0.) E = E-eloss(E,geoP.FoilThickness,eAAg,dedxAAg);  
+		if(geoP.FoilThickness>0.) E = E-eloss(A, 1., E, geoP.FoilThickness , IrisMaterial::Foil);  
 		else E = temp_E;
 		printf("Energy loss in silver foil: %.3f MeV\n" ,temp_E-E);
 		printf("Energy after silver foil: %.3f MeV\n",E);
 	}
 	else{ //foil facing upstream of target
-	        if(geoP.FoilThickness>0.) E = E-eloss(E,geoP.FoilThickness,eAAg,dedxAAg);  
+	        if(geoP.FoilThickness>0.) E = E-eloss(A, 1., E, geoP.FoilThickness, IrisMaterial::Foil);  
 		else E = temp_E;
 		printf("Energy loss in silver foil: %.3f MeV\n" ,temp_E-E);
 		printf("Energy after silver foil: %.3f MeV\n",E);
 
 		temp_E = E;
-		E = E-eloss(E,geoP.TargetThickness/2.,eATgt,dedxATgt);  
+		E = E-eloss(A, 1., E, geoP.TargetThickness/2., IrisMaterial::Target);  
 		printf("Energy loss in half target: %.3f MeV\n" ,temp_E-E);
 		printf("Beam energy in center of target: %.3f MeV\n" ,E);
 		HalfTargE = E;
@@ -462,7 +463,7 @@ void HandleBOR_PHYSICS(std::string BinPath, std::string Directory, std::string C
 		// Initialize runPar with values from first run in chain	
 		if(runDepPar.bool_runPar==kTRUE) getRunPar(runs.at(0));
 		prevRun=runs.at(0);
-		calculateBeamEnergy(runDepPar.energy);
+		calculateBeamEnergy(beam, runDepPar.energy);
 		
 		printf("MBeam: %f\t MFoil: %f\t kBF: %f\n",beam.mass,MFoil,kBF);
 		printf("beam mass: %f MeV (%f)\ttarget mass: %f MeV (%f)\n",mA,mA/931.494061,ma,ma/931.494061);
@@ -510,7 +511,7 @@ void HandlePHYSICS()
 		if (conditionsmet == 0) continue;
 		if(runDepPar.bool_runPar == kTRUE && Run != prevRun){
 		  	getRunPar(Run);
-		  	calculateBeamEnergy(runDepPar.energy);
+		  	calculateBeamEnergy(beam, runDepPar.energy);
 		  	prevRun = Run;
 		}
 		
