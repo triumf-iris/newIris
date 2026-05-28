@@ -485,6 +485,18 @@ void HandleBOR_PHYSICS(std::string BinPath, std::string Directory, std::string C
 			lej.EL.loadOutgoingELoss(dedxstr, lej.name.data(), geoP.MFoil, geoP.MTgt, lej.mass);
 			hej.EL.loadOutgoingELoss(dedxstr, hej.name.data(), geoP.MFoil, geoP.MTgt, hej.mass);
 		}
+		else
+		{
+#ifndef USE_CATIMA
+		std::cout << "ERROR: dedx tables not supplied!" << std::endl;
+		file->Close();
+		return 1;
+#endif
+		std::cout << "Using dedx tables from catima" << std::endl;
+		beam.EL.makeCatimaTables(beam.A, beam.Z, geoP.MFoil, geoP.MTgt, beam.mass);
+		lej.EL.makeCatimaTables(lej.A, lej.Z, geoP.MFoil, geoP.MTgt, lej.mass);
+		hej.EL.makeCatimaTables(hej.A, hej.Z, geoP.MFoil, geoP.MTgt, hej.mass);
+		}
 
 		/*if (calPhys.boolIdedx == kTRUE)
 		{
