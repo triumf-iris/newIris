@@ -7,7 +7,7 @@
 #include <TGraph.h>
 #include "nucleus.h"
 
-Double_t eval(Double_t, Double_t[100], Double_t[100]);
+/*Double_t eval(Double_t, Double_t[100], Double_t[100]);
 Double_t eloss(nucleus, Double_t, Double_t, Double_t, Double_t[100], Double_t[100]);
 Double_t elossFi(Double_t, Double_t, Double_t[100], Double_t[100]);
 
@@ -22,7 +22,7 @@ Double_t elossFi(Double_t, Double_t, TGraph *);
 Double_t thickness(Double_t, Double_t, TGraph *);//initial energy and final energy are given as arguments, calculates target thickness 
 Double_t thickness(Double_t, Double_t, Double_t[100], Double_t[100]);
 
-Double_t fncBethe(Double_t *x, Double_t *par); //Bethe like function for fitting    
+Double_t fncBethe(Double_t *x, Double_t *par); //Bethe like function for fitting */
 
 double eval(double, std::array<double, 100>, std::array<double, 100>);
 double eloss(nucleus, double, double, double, IrisMaterial);
