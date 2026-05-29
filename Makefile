@@ -47,11 +47,11 @@ all:  $(BINARYDIR)/simIris $(BINARYDIR)/physIris
 $(BINARYDIR)/simIris: $(OBJECTDIR)/simIris.o $(OBJECTDIR)/reacParams.o $(OBJECTDIR)/geoParams.o $(OBJECTDIR)/dwba.o $(OBJECTDIR)/shieldClear.o $(LIBDIR)/libIRISEvent.so
 	$(CXX) -o $@ $(CXXFLAGS) $^ $(CATIMALIBDIR) $(ROOTGLIBS) $(CATIMALIBS) -lm -lz -lutil -lpthread -lrt
 
-$(BINARYDIR)/physIris: $(OBJECTDIR)/physIris.o $(OBJECTDIR)/eloss.o $(OBJECTDIR)/runDepPar.o $(OBJECTDIR)/HandlePHYSICS.o $(OBJECTDIR)/CalibPHYSICS.o $(OBJECTDIR)/Graphsdedx.o $(OBJECTDIR)/geometry.o $(LIBDIR)/libIRISEvent.so
+$(BINARYDIR)/physIris: $(OBJECTDIR)/physIris.o $(OBJECTDIR)/runDepPar.o $(OBJECTDIR)/HandlePHYSICS.o $(OBJECTDIR)/CalibPHYSICS.o $(OBJECTDIR)/Graphsdedx.o $(OBJECTDIR)/geometry.o $(LIBDIR)/libIRISEvent.so
 	$(CXX) -o $@ $(CXXFLAGS) $^ $(CATIMALIBDIR) $(ROOTGLIBS) $(CATIMALIBS) -lm -lz -lutil -lpthread -lrt
 
 #remove -lnsl and -lrt for macOS
-$(LIBDIR)/libIRISEvent.so: $(OBJECTDIR)/TEvent.o $(OBJECTDIR)/ITdc.o $(OBJECTDIR)/nucleus.o $(OBJECTDIR)/dedx.o $(OBJECTDIR)/PTrack.o $(OBJECTDIR)/IRISHit.o $(OBJECTDIR)/YYHit.o $(OBJECTDIR)/IPhys.o $(OBJECTDIR)/CsIHit.o $(OBJECTDIR)/S3Hit.o $(OBJECTDIR)/IDet.o  $(OBJECTDIR)/IScaler.o $(OBJECTDIR)/EnergyLossManager.o $(OBJECTDIR)/IRISEventDict.o
+$(LIBDIR)/libIRISEvent.so: $(OBJECTDIR)/TEvent.o $(OBJECTDIR)/ITdc.o $(OBJECTDIR)/nucleus.o $(OBJECTDIR)/dedx.o $(OBJECTDIR)/PTrack.o $(OBJECTDIR)/IRISHit.o $(OBJECTDIR)/YYHit.o $(OBJECTDIR)/IPhys.o $(OBJECTDIR)/CsIHit.o $(OBJECTDIR)/S3Hit.o $(OBJECTDIR)/IDet.o  $(OBJECTDIR)/IScaler.o $(OBJECTDIR)/eloss.o $(OBJECTDIR)/IRISEventDict.o
 	$(LD) $(SOFLAGS) $(LDFLAGS) $(CATIMALIBDIR) $(ROOTGLIBS) $(CATIMALIBS) $^ -o $@
 	@echo "$@ done"
 
@@ -74,9 +74,6 @@ $(OBJECTDIR)/dedx.o: $(SOURCEDIR)/dedx.cxx
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 $(OBJECTDIR)/dwba.o: $(SOURCEDIR)/dwba.cxx
-	$(CXX) $(CXXFLAGS) -c $< -o $@
-
-$(OBJECTDIR)/EnergyLossManager.o: $(SOURCEDIR)/EnergyLossManager.cxx
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 $(OBJECTDIR)/shieldClear.o: $(SOURCEDIR)/shieldClear.cxx

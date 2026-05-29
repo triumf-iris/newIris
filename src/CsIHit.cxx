@@ -97,10 +97,10 @@ Double_t CsIHit::ELoss(nucleus ncl, Double_t E, Double_t theta)
 	Double_t dE0, dE_ideal0;
 	// if(fMul>0 && hit0==1){
 	TRandom3 *rndm = new TRandom3(0);
-	E -= elMan->eloss(ncl, 15. / 31., E, 0.1 * 1.8219 * 0.1 / cos(theta), IrisMaterial::P);
-	E -= elMan->eloss(ncl, 13. / 27., E, 0.3 * 2.702 * 0.1 / cos(theta), IrisMaterial::Al);
-	E -= elMan->eloss(ncl, 100. / 192., E, 6. * 1.4 * 0.1 / cos(theta), IrisMaterial::Mylar);
-	dE0 = elMan->eloss(ncl, 108. / 260., E, Thickness / cos(theta), IrisMaterial::CsI);
+	E -= eloss(ncl, 15. / 31., E, 0.1 * 1.8219 * 0.1 / cos(theta), IrisMaterial::P);
+	E -= eloss(ncl, 13. / 27., E, 0.3 * 2.702 * 0.1 / cos(theta), IrisMaterial::Al);
+	E -= eloss(ncl, 100. / 192., E, 6. * 1.4 * 0.1 / cos(theta), IrisMaterial::Mylar);
+	dE0 = eloss(ncl, 108. / 260., E, Thickness / cos(theta), IrisMaterial::CsI);
 	E -= dE0;
 	if (dE0 < 0.)
 		dE0 = -dE0;

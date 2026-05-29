@@ -10,9 +10,7 @@
 #include "S3Hit.h"
 #include "IDet.h"
 #include "IPhys.h"
-#include "EnergyLossManager.h"
 
-extern EnergyLossManager *elMan;
 extern reacParams reacPrm;
 extern geoParams geoPrm;
 extern YYHit yd;

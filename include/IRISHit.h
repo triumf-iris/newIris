@@ -6,7 +6,7 @@
 #include "TRandom3.h"
 #include "TVector3.h"
 #include "nucleus.h"
-#include "EnergyLossManager.h"
+#include "eloss.h"
 
 class IRISHit : public TObject
 {
@@ -19,8 +19,6 @@ public:
 	virtual Bool_t Hit(Double_t theta, Double_t phi, Double_t distance, TVector3 targetPos, Int_t P) { return false; } //!
 	virtual Double_t ELoss(nucleus ncl, Double_t E, Double_t theta) { return 0; }
 	void Clear(Option_t *option = "") override; //!
-
-	void SetELossManager(EnergyLossManager *manager) { elMan = manager; }
 
 	Int_t GetMul() { return fMul; }
 	Int_t GetSize() { return fdE.size(); }
@@ -73,7 +71,6 @@ protected:
 	std::vector<Int_t> fChannel;
 	std::vector<Int_t> fNo;
 	std::vector<Int_t> fPType;
-	EnergyLossManager *elMan;
 
 private:
 	ClassDefOverride(IRISHit, 1);

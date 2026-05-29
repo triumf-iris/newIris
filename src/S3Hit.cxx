@@ -98,14 +98,14 @@ Double_t S3Hit::ELoss(nucleus ncl, Double_t E, Double_t theta)
 
 	if (fOrientation == 0)
 	{																						 // rings first
-		E -= elMan->eloss(ncl, 13. / 27., E, 0.1 * 2.702 * 1.5 / cos(T), IrisMaterial::Al);	 // first metal
-		E -= elMan->eloss(ncl, 30. / 60., E, 0.1 * 2.65 * 3.5 / cos(T), IrisMaterial::SiO2); // SiO2
-		E -= elMan->eloss(ncl, 13. / 27., E, 0.1 * 2.702 * 0.3 / cos(T), IrisMaterial::Al);	 // second metal
-		E -= elMan->eloss(ncl, 5. / 10., E, 0.1 * 2.3502 * 0.5 / cos(T), IrisMaterial::B);	 // boron junction implant
-		dE0 = elMan->eloss(ncl, 14. / 28., E, Thickness / cos(T), IrisMaterial::Si);
+		E -= eloss(ncl, 13. / 27., E, 0.1 * 2.702 * 1.5 / cos(T), IrisMaterial::Al);	 // first metal
+		E -= eloss(ncl, 30. / 60., E, 0.1 * 2.65 * 3.5 / cos(T), IrisMaterial::SiO2); // SiO2
+		E -= eloss(ncl, 13. / 27., E, 0.1 * 2.702 * 0.3 / cos(T), IrisMaterial::Al);	 // second metal
+		E -= eloss(ncl, 5. / 10., E, 0.1 * 2.3502 * 0.5 / cos(T), IrisMaterial::B);	 // boron junction implant
+		dE0 = eloss(ncl, 14. / 28., E, Thickness / cos(T), IrisMaterial::Si);
 		E -= dE0;
-		E -= elMan->eloss(ncl, 15. / 31., E, 0.1 * 1.822 * 0.5 / cos(T), IrisMaterial::P);	// phosphorus implant
-		E -= elMan->eloss(ncl, 13. / 27., E, 0.1 * 2.702 * 0.3 / cos(T), IrisMaterial::Al); // metal
+		E -= eloss(ncl, 15. / 31., E, 0.1 * 1.822 * 0.5 / cos(T), IrisMaterial::P);	// phosphorus implant
+		E -= eloss(ncl, 13. / 27., E, 0.1 * 2.702 * 0.3 / cos(T), IrisMaterial::Al); // metal
 		// E -= dE0;
 		// if(dE0<0.) dE0 = -dE0;
 		// dE_ideal0 = dE0;
@@ -114,9 +114,9 @@ Double_t S3Hit::ELoss(nucleus ncl, Double_t E, Double_t theta)
 	}
 	else
 	{																						// sectors first
-		E -= elMan->eloss(ncl, 13. / 27., E, 0.1 * 2.702 * 0.3 / cos(T), IrisMaterial::Al); // metal
-		E -= elMan->eloss(ncl, 15. / 31., E, 0.1 * 1.822 * 0.5 / cos(T), IrisMaterial::P);	// phosphorus implant
-		dE0 = elMan->eloss(ncl, 14. / 28., E, Thickness / cos(T), IrisMaterial::Si);
+		E -= eloss(ncl, 13. / 27., E, 0.1 * 2.702 * 0.3 / cos(T), IrisMaterial::Al); // metal
+		E -= eloss(ncl, 15. / 31., E, 0.1 * 1.822 * 0.5 / cos(T), IrisMaterial::P);	// phosphorus implant
+		dE0 = eloss(ncl, 14. / 28., E, Thickness / cos(T), IrisMaterial::Si);
 		E -= dE0;
 		// if(dE0<0.) dE0 = -dE0;
 		// dE_ideal0 = dE0;

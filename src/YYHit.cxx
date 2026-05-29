@@ -132,10 +132,10 @@ Double_t YYHit::ELoss(nucleus ncl, Double_t E, Double_t theta)
 	TRandom3 *rndm = new TRandom3(0);
 	Int_t sector;
 	sector = fSeg.size() - 1;
-	E -= elMan->eloss(ncl, 13. / 27., E, 0.1 * 2.702 * 0.1 / cos(T), IrisMaterial::Al);
-	E -= elMan->eloss(ncl, 5. / 10., E, 0.05 * 2.3502 * 0.1 / cos(T), IrisMaterial::B);
-	dE0 = elMan->eloss(ncl, 14. / 28., E, SegThickness[sector] / cos(T), IrisMaterial::Si);
-	dE_ideal0 = elMan->eloss(ncl, 14. / 28., E, Thickness / cos(T), IrisMaterial::Si);
+	E -= eloss(ncl, 13. / 27., E, 0.1 * 2.702 * 0.1 / cos(T), IrisMaterial::Al);
+	E -= eloss(ncl, 5. / 10., E, 0.05 * 2.3502 * 0.1 / cos(T), IrisMaterial::B);
+	dE0 = eloss(ncl, 14. / 28., E, SegThickness[sector] / cos(T), IrisMaterial::Si);
+	dE_ideal0 = eloss(ncl, 14. / 28., E, Thickness / cos(T), IrisMaterial::Si);
 	E = E - dE0;
 	if (dE0 < 0.)
 		dE0 = -dE0;

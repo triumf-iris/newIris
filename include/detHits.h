@@ -1,5 +1,5 @@
 #include "header.h"
-#include "EnergyLossManager.h"
+#include "eloss.h"
 #include "IrisMaterial.h"
 
 Bool_t detHits(PTrack tr, nucleus ncl, TVector3 reacPos, Bool_t maskIn, Bool_t shieldIn, Int_t P)
@@ -57,21 +57,21 @@ PTrack TgtELoss(PTrack tr, nucleus ncl, geoParams g, Double_t reacZ, Bool_t isSH
 		if (g.Orientation == 0 && tr.T < TMath::Pi() / 2.)
 		{ // foil before target, theta<90 deg
 			tr.FoildE = 0.;
-			tr.TrgtdE = elMan->eloss(ncl, 1. / g.AoZTgt, tr.E, (g.TTgt - reacZ) / TMath::Cos(tr.T), IrisMaterial::Target);
+			tr.TrgtdE = eloss(ncl, 1. / g.AoZTgt, tr.E, (g.TTgt - reacZ) / TMath::Cos(tr.T), IrisMaterial::Target);
 		}
 		if (g.Orientation == 0 && tr.T > TMath::Pi() / 2.)
 		{ // foil before target, theta>90 deg
-			tr.TrgtdE = elMan->eloss(ncl, 1. / g.AoZTgt, tr.E, reacZ / TMath::Cos(TMath::Pi() - tr.T), IrisMaterial::Target);
-			tr.FoildE = elMan->eloss(ncl, 1. / g.AoZFoil, tr.E - tr.TrgtdE, g.TFoil / TMath::Cos(TMath::Pi() - tr.T), IrisMaterial::Foil);
+			tr.TrgtdE = eloss(ncl, 1. / g.AoZTgt, tr.E, reacZ / TMath::Cos(TMath::Pi() - tr.T), IrisMaterial::Target);
+			tr.FoildE = eloss(ncl, 1. / g.AoZFoil, tr.E - tr.TrgtdE, g.TFoil / TMath::Cos(TMath::Pi() - tr.T), IrisMaterial::Foil);
 		}
 		if (g.Orientation == 1 && tr.T < TMath::Pi() / 2.)
 		{ // foil after target, theta<90 deg
-			tr.TrgtdE = elMan->eloss(ncl, 1. / g.AoZTgt, tr.E, (g.TTgt - reacZ) / TMath::Cos(tr.T), IrisMaterial::Target);
-			tr.FoildE = elMan->eloss(ncl, 1. / g.AoZFoil, tr.E - tr.TrgtdE, g.TFoil / TMath::Cos(tr.T), IrisMaterial::Foil);
+			tr.TrgtdE = eloss(ncl, 1. / g.AoZTgt, tr.E, (g.TTgt - reacZ) / TMath::Cos(tr.T), IrisMaterial::Target);
+			tr.FoildE = eloss(ncl, 1. / g.AoZFoil, tr.E - tr.TrgtdE, g.TFoil / TMath::Cos(tr.T), IrisMaterial::Foil);
 		}
 		if (g.Orientation == 1 && tr.T > TMath::Pi() / 2.)
 		{ // foil after target, theta>90 deg
-			tr.TrgtdE = elMan->eloss(ncl, 1. / g.AoZTgt, tr.E, reacZ / TMath::Cos(TMath::Pi() - tr.T), IrisMaterial::Target);
+			tr.TrgtdE = eloss(ncl, 1. / g.AoZTgt, tr.E, reacZ / TMath::Cos(TMath::Pi() - tr.T), IrisMaterial::Target);
 			tr.FoildE = 0.;
 		}
 	}
@@ -81,11 +81,11 @@ PTrack TgtELoss(PTrack tr, nucleus ncl, geoParams g, Double_t reacZ, Bool_t isSH
 		if (tr.T < TMath::Pi() / 2.)
 		{
 			tr.TrgtdE = 0.;
-			tr.FoildE = elMan->eloss(ncl, 1. / g.AoZFoil, tr.E, (g.TFoil - reacZ) / TMath::Cos(tr.T), IrisMaterial::Foil);
+			tr.FoildE = eloss(ncl, 1. / g.AoZFoil, tr.E, (g.TFoil - reacZ) / TMath::Cos(tr.T), IrisMaterial::Foil);
 		}
 		if (tr.T > TMath::Pi() / 2.)
 		{ // foil after target, theta>90 deg
-			tr.FoildE = elMan->eloss(ncl, 1. / g.AoZFoil, tr.E, reacZ / TMath::Cos(TMath::Pi() - tr.T), IrisMaterial::Foil);
+			tr.FoildE = eloss(ncl, 1. / g.AoZFoil, tr.E, reacZ / TMath::Cos(TMath::Pi() - tr.T), IrisMaterial::Foil);
 			tr.TrgtdE = 0;
 		}
 	}

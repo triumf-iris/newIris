@@ -21,10 +21,8 @@
 #include "header.h"
 #include "detHits.h"
 #include "IPhys.h"
-#include "EnergyLossManager.h"
+#include "eloss.h"
 #include "IrisMaterial.h"
-
-EnergyLossManager *elMan = nullptr;
 
 reacParams reacPrm;
 geoParams geoPrm;
@@ -101,14 +99,6 @@ void clearEvt()
 
 int main(int argc, char *argv[])
 {
-
-	elMan = new EnergyLossManager();
-	yd.SetELossManager(elMan);
-	yu.SetELossManager(elMan);
-	csi.SetELossManager(elMan);
-	sd1.SetELossManager(elMan);
-	sd2.SetELossManager(elMan);
-	su.SetELossManager(elMan);
 
 	Bool_t have_reaction = kFALSE;
 	Bool_t have_geometry = kFALSE;
@@ -539,10 +529,10 @@ int main(int argc, char *argv[])
 
 	// Calculate energy loss up to center of the target
 	Double_t EA = reacPrm.E;
-	EA -= elMan->eloss(A, 0.5, EA, ICWindow1, IrisMaterial::Si3N4);
-	ICdE = elMan->eloss(A, 0.586, EA, ICLength, IrisMaterial::C4H10);
+	EA -= eloss(A, 0.5, EA, ICWindow1, IrisMaterial::Si3N4);
+	ICdE = eloss(A, 0.586, EA, ICLength, IrisMaterial::C4H10);
 	EA -= ICdE;
-	EA -= elMan->eloss(A, 0.5, EA, ICWindow2, IrisMaterial::Si3N4);
+	EA -= eloss(A, 0.5, EA, ICWindow2, IrisMaterial::Si3N4);
 	E_after_IC = EA;
 
 	if (isSHTReac)
@@ -550,15 +540,15 @@ int main(int argc, char *argv[])
 		if (geoPrm.Orientation == 1)
 		{
 			E_before_Tgt = EA;
-			EA -= elMan->eloss(A, 1., EA, geoPrm.TTgt / 2., IrisMaterial::Target);
+			EA -= eloss(A, 1., EA, geoPrm.TTgt / 2., IrisMaterial::Target);
 			E_center_Tgt = EA;
-			EA -= elMan->eloss(A, 1., EA, geoPrm.TTgt / 2., IrisMaterial::Target);
+			EA -= eloss(A, 1., EA, geoPrm.TTgt / 2., IrisMaterial::Target);
 			E_after_Tgt = EA;
 		}
 
 		E_before_Foil = EA;
-		E_center_Foil = EA - elMan->eloss(A, 1. / geoPrm.AoZFoil, EA, geoPrm.TFoil / 2., IrisMaterial::Foil);
-		EA -= elMan->eloss(A, 1. / geoPrm.AoZFoil, EA, geoPrm.TFoil, IrisMaterial::Foil);
+		E_center_Foil = EA - eloss(A, 1. / geoPrm.AoZFoil, EA, geoPrm.TFoil / 2., IrisMaterial::Foil);
+		EA -= eloss(A, 1. / geoPrm.AoZFoil, EA, geoPrm.TFoil, IrisMaterial::Foil);
 		// E_before_Tgt = EA;
 		E_after_Foil = EA;
 		if (geoPrm.Orientation == 1)
@@ -567,17 +557,17 @@ int main(int argc, char *argv[])
 		if (geoPrm.Orientation == 0)
 		{
 			E_before_Tgt = E_after_Foil;
-			E_center_Tgt = E_after_Foil - elMan->eloss(A, 1., E_after_Foil, geoPrm.TTgt / 2., IrisMaterial::Target);
-			E_after_Tgt = E_after_Foil - elMan->eloss(A, 1., E_after_Foil, geoPrm.TTgt, IrisMaterial::Target);
+			E_center_Tgt = E_after_Foil - eloss(A, 1., E_after_Foil, geoPrm.TTgt / 2., IrisMaterial::Target);
+			E_after_Tgt = E_after_Foil - eloss(A, 1., E_after_Foil, geoPrm.TTgt, IrisMaterial::Target);
 			E_before_SSB = E_after_Tgt;
 		}
 	}
 	else
 	{
 		E_before_Foil = E_after_IC;
-		EA -= elMan->eloss(A, 1. / geoPrm.AoZFoil, EA, geoPrm.TFoil / 2., IrisMaterial::Foil);
+		EA -= eloss(A, 1. / geoPrm.AoZFoil, EA, geoPrm.TFoil / 2., IrisMaterial::Foil);
 		E_center_Foil = EA;
-		EA -= elMan->eloss(A, 1. / geoPrm.AoZFoil, EA, geoPrm.TFoil / 2., IrisMaterial::Foil);
+		EA -= eloss(A, 1. / geoPrm.AoZFoil, EA, geoPrm.TFoil / 2., IrisMaterial::Foil);
 		E_after_Foil = EA;
 
 		E_before_Tgt = EA;
@@ -671,19 +661,19 @@ int main(int argc, char *argv[])
 			reacZ = rndm->Uniform(0, geoPrm.TTgt);
 			if (geoPrm.Orientation == 0)
 			{
-				EA = E_after_IC - elMan->eloss(A, 1. / geoPrm.AoZFoil, E_before_Foil, geoPrm.TFoil, IrisMaterial::Foil);
+				EA = E_after_IC - eloss(A, 1. / geoPrm.AoZFoil, E_before_Foil, geoPrm.TFoil, IrisMaterial::Foil);
 			}
 			if (geoPrm.Orientation == 1)
 			{
 				EA = E_after_IC;
 			}
-			EA = EA - elMan->eloss(A, b.Z / b.A, E_before_Tgt, reacZ, IrisMaterial::Target);
+			EA = EA - eloss(A, b.Z / b.A, E_before_Tgt, reacZ, IrisMaterial::Target);
 		}
 		else
 		{
 
 			reacZ = rndm->Uniform(0, geoPrm.TFoil);
-			EA = E_after_IC - elMan->eloss(A, 1. / geoPrm.AoZFoil, E_before_Foil, reacZ, IrisMaterial::Foil);
+			EA = E_after_IC - eloss(A, 1. / geoPrm.AoZFoil, E_before_Foil, reacZ, IrisMaterial::Foil);
 			// reacZ = geoPrm.TTgt/2.;
 		}
 
@@ -921,7 +911,7 @@ int main(int argc, char *argv[])
 			detHits(buP4, f, reacPos, geoPrm.Mask, geoPrm.Shield, -1);
 		}
 		// Calculate energy loss in SSB
-		Double_t SSBE = elMan->eloss(A, 14. / 28., E_before_SSB, 500. * 2.3212 * 0.1, IrisMaterial::Si);
+		Double_t SSBE = eloss(A, 14. / 28., E_before_SSB, 500. * 2.3212 * 0.1, IrisMaterial::Si);
 		phys.SSBdE = rndm->Gaus(SSBE, 0.05 * SSBE);
 
 		Bool_t sortEnergies = 1; // sort detector hits by energy. Does not work with S3 Detector.

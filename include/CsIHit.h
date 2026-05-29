@@ -7,7 +7,6 @@
 #include "TVector3.h"
 #include "IRISHit.h"
 #include "nucleus.h"
-#include "EnergyLossManager.h"
 /****CsI hit***/
 
 class CsIHit : public IRISHit
