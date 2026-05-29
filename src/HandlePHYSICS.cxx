@@ -701,7 +701,7 @@ void HandlePHYSICS()
 			}
 		}
 
-		// Qvalue calculation for Target like particle
+		// Qvalue calculation for Target like particle using CsI1
 		if (det->TYdEnergy.size() > 0 && det->TYdRing.size() > 0 && det->TYdMul > 0)
 		{ // check if in the proton/deuteron YdCsIGate
 
@@ -745,22 +745,23 @@ void HandlePHYSICS()
 				// Q2 = mA+ma-mb- sqrt(mA*mA+mb*mb-ma*ma-2.*(mA+EBeam)*(mb+Eb2)+2.*PA*Pb2*cos(thetaR2)+2.*(EBeam+mA+ma-Eb2-mb)*ma);  //Alisher's equation
 				Q2 = mA + ma - mb - sqrt(EB2 * EB2 - PB2 * PB2); // Equivalent to the previous equation
 				Ex2 = Qgs - Q2;
-				IrisEvent->fCCsI2_tlP.push_back(CCsI2);
-				IrisEvent->fECsI2_tlP.push_back(ECsI2);
-				IrisEvent->fEb2_tlP.push_back(Eb2);
-				IrisEvent->fPb2_tlP.push_back(Pb2);
-				IrisEvent->EB2_det_tlP.push_back(EB2);
-				IrisEvent->PB2_det_tlP.push_back(PB2);
-				IrisEvent->fPby2_tlP.push_back(Pb2y);
-				IrisEvent->fPbxcm2_tlP.push_back(Pb2xcm);
-				IrisEvent->Qdet2_tlP.push_back(Q2);
-				IrisEvent->Ex2_tlP.push_back(Ex2);
+				IrisEvent->fCCsI1_tlP.push_back(CCsI2);
+				IrisEvent->fECsI1_tlP.push_back(ECsI2);
+				IrisEvent->fEb1_tlP.push_back(Eb2);
+				IrisEvent->fPb1_tlP.push_back(Pb2);
+				IrisEvent->EB1_det_tlP.push_back(EB2);
+				IrisEvent->PB1_det_tlP.push_back(PB2);
+				IrisEvent->fPby1_tlP.push_back(Pb2y);
+				IrisEvent->fPbxcm1_tlP.push_back(Pb2xcm);
+				IrisEvent->Qdet1_tlP.push_back(Q2);
+				IrisEvent->Ex1_tlP.push_back(Ex2);
 				thetaCM2 = TMath::RadToDeg() * atan(Pb2y / Pb2xcm);
 				thetaCM2 = (thetaCM2 < 0) ? thetaCM2 + 180. : thetaCM2;
-				IrisEvent->fThetacm2_tlP.push_back(thetaCM2);
+				IrisEvent->fThetacm1_tlP.push_back(thetaCM2);
 			}
 		}
 
+		// Qvalue calculation for Target like particle using CsI2
 		if (det->TYdEnergy.size() > 0 && det->TYdRing.size() > 0 && det->TYdMul > 0)
 		{ // check if in the proton/deuteron YdCsIGate
 
@@ -803,19 +804,19 @@ void HandlePHYSICS()
 				// Q2 = mA+ma-mb- sqrt(mA*mA+mb*mb-ma*ma-2.*(mA+EBeam)*(mb+Eb2)+2.*PA*Pb2*cos(thetaR2)+2.*(EBeam+mA+ma-Eb2-mb)*ma);  //Alisher's equation
 				Q2 = mA + ma - mb - sqrt(EB2 * EB2 - PB2 * PB2); // Equivalent to the previous equation
 				Ex2 = Qgs - Q2;
-				IrisEvent->fCCsI1_tlP.push_back(CCsI2);
-				IrisEvent->fECsI1_tlP.push_back(ECsI2);
-				IrisEvent->fEb1_tlP.push_back(Eb2);
-				IrisEvent->fPb1_tlP.push_back(Pb2);
-				IrisEvent->EB1_det_tlP.push_back(EB2);
-				IrisEvent->PB1_det_tlP.push_back(PB2);
-				IrisEvent->fPby1_tlP.push_back(Pb2y);
-				IrisEvent->fPbxcm1_tlP.push_back(Pb2xcm);
-				IrisEvent->Qdet1_tlP.push_back(Q2);
-				IrisEvent->Ex1_tlP.push_back(Ex2);
+				IrisEvent->fCCsI2_tlP.push_back(CCsI2);
+				IrisEvent->fECsI2_tlP.push_back(ECsI2);
+				IrisEvent->fEb2_tlP.push_back(Eb2);
+				IrisEvent->fPb2_tlP.push_back(Pb2);
+				IrisEvent->EB2_det_tlP.push_back(EB2);
+				IrisEvent->PB2_det_tlP.push_back(PB2);
+				IrisEvent->fPby2_tlP.push_back(Pb2y);
+				IrisEvent->fPbxcm2_tlP.push_back(Pb2xcm);
+				IrisEvent->Qdet2_tlP.push_back(Q2);
+				IrisEvent->Ex2_tlP.push_back(Ex2);
 				thetaCM2 = TMath::RadToDeg() * atan(Pb2y / Pb2xcm);
 				thetaCM2 = (thetaCM2 < 0) ? thetaCM2 + 180. : thetaCM2;
-				IrisEvent->fThetacm1_tlP.push_back(thetaCM2);
+				IrisEvent->fThetacm2_tlP.push_back(thetaCM2);
 			}
 		}
 
@@ -871,7 +872,7 @@ void HandlePHYSICS()
 			}
 		}
 
-		// Qvalue calculation for Beam like particle
+		// Qvalue calculation for Beam like particle for CsI1
 		if (det->TYdEnergy.size() > 0 && det->TYdRing.size() > 0 && det->TYdMul > 0)
 		{ // check if in the proton/deuteron YdCsIGate
 			for (int z = 0; z < det->TYdMul; z++)
@@ -930,6 +931,7 @@ void HandlePHYSICS()
 			}
 		}
 
+		// Qvalue calculation for Beam like particle for CsI2
 		if (det->TYdEnergy.size() > 0 && det->TYdRing.size() > 0 && det->TYdMul > 0)
 		{ // check if in the proton/deuteron YdCsIGate
 			for (int z = 0; z < det->TYdMul; z++)
