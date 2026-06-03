@@ -5,7 +5,7 @@
 
 ClassImp(YYHit)
 
-YYHit::YYHit() : IRISHit()
+	YYHit::YYHit() : IRISHit()
 {
 	SegThickness[0] = 104.65 * 2.3212 * 0.1;
 	SegThickness[1] = 101.15 * 2.3212 * 0.1;

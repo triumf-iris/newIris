@@ -19,7 +19,7 @@ Bool_t detHits(PTrack tr, nucleus ncl, TVector3 reacPos, Bool_t maskIn, Bool_t s
 	Double_t ETmp = tr.Ebt;
 	Double_t ETmpU = tr.Ebt;
 
-	//std::cout << "Ebt = " << ETmp << std::endl;
+	// std::cout << "Ebt = " << ETmp << std::endl;
 
 	if (mask && shield && backward)
 	{
@@ -55,7 +55,7 @@ Bool_t detHits(PTrack tr, nucleus ncl, TVector3 reacPos, Bool_t maskIn, Bool_t s
 // Calculate the energy loss of the scattered particles in Foil and SHT
 PTrack TgtELoss(PTrack tr, nucleus ncl, geometry g, Double_t reacZ, Bool_t isSHTReac)
 {
-	//std::cout << "tr.E = " << tr.E << std::endl;
+	// std::cout << "tr.E = " << tr.E << std::endl;
 	if (isSHTReac)
 	{ // Reaction in SHT
 		if (g.TargetOrientation == 0 && tr.T < TMath::Pi() / 2.)
@@ -94,7 +94,7 @@ PTrack TgtELoss(PTrack tr, nucleus ncl, geometry g, Double_t reacZ, Bool_t isSHT
 		}
 	}
 
-	//std::cout << "tr.Ebt: " << tr.Ebt << "; tr.FoildE: " << tr.FoildE <<"; tr.TrgtdE: " << tr.TrgtdE << std::endl;
+	// std::cout << "tr.Ebt: " << tr.Ebt << "; tr.FoildE: " << tr.FoildE <<"; tr.TrgtdE: " << tr.TrgtdE << std::endl;
 
 	tr.Ebt = tr.E - tr.FoildE - tr.TrgtdE; // calculate energy of particle after foil and target
 	// printf("In: %f\tFoil: %f\tTarget: %f\tLeft: %f\n",tr.E,tr.FoildE,tr.TrgtdE,tr.Ebt);

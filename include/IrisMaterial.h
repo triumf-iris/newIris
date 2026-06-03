@@ -3,18 +3,18 @@
 
 enum class IrisMaterial
 {
-		Foil,	
-		Al,	
-		B,	
-		C4H10,	
-		CsI,
-		Target,	
-		Mylar,	
-		P,	
-		Si,	
-		Si3N4,	
-		SiO2,
-        count
+	Foil,
+	Al,
+	B,
+	C4H10,
+	CsI,
+	Target,
+	Mylar,
+	P,
+	Si,
+	Si3N4,
+	SiO2,
+	count
 };
 
 #endif

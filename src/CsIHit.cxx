@@ -3,7 +3,7 @@
 
 ClassImp(CsIHit)
 
-CsIHit::CsIHit() : IRISHit()
+	CsIHit::CsIHit() : IRISHit()
 {
 	Thickness = 12000. * 4.51 * 0.1; // um*g/cm^3*0.1;
 	RIn = 50.;						 // Inner radius in mm

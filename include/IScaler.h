@@ -6,28 +6,27 @@
 #include <TObject.h>
 #include <TClass.h>
 
-class IScaler : public TObject {
- 	public:  		
-		IScaler(); //! Create
-  		virtual ~IScaler() {} //!  
-	
-  		Int_t EventID;
-  		
-		Int_t ICSum;
-  		Int_t ScintSum;
-  		Int_t AccepTrigSum;
-  		Int_t FreeTrigSum;
+class IScaler : public TObject
+{
+public:
+	IScaler();			  //! Create
+	virtual ~IScaler() {} //!
 
-  		Int_t ICRate;
-  		Int_t ScintRate;
-  		Int_t AccepTrigRate;
-  		Int_t FreeTrigRate;
+	Int_t EventID;
 
-  		void Clear(Option_t *option = "") override;
-  		ClassDefOverride(IScaler,1)
+	Int_t ICSum;
+	Int_t ScintSum;
+	Int_t AccepTrigSum;
+	Int_t FreeTrigSum;
+
+	Int_t ICRate;
+	Int_t ScintRate;
+	Int_t AccepTrigRate;
+	Int_t FreeTrigRate;
+
+	void Clear(Option_t *option = "") override;
+	ClassDefOverride(IScaler, 1)
 };
-
 
 #endif
 // end
-

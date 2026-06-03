@@ -14,8 +14,8 @@ public:
 	IRISHit();			  //! Create
 	virtual ~IRISHit() {} //!
 
-	Double_t ThetaMin(Double_t distance);															  //!
-	Double_t ThetaMax(Double_t distance);															  //!
+	Double_t ThetaMin(Double_t distance);																			   //!
+	Double_t ThetaMax(Double_t distance);																			   //!
 	virtual Bool_t Hit(Double_t theta, Double_t phi, Double_t distance, TVector3 targetPos, Int_t P) { return false; } //!
 	virtual Double_t ELoss(nucleus ncl, Double_t E, Double_t theta) { return 0; }
 	void Clear(Option_t *option = "") override; //!

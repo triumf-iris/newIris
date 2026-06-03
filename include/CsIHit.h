@@ -21,7 +21,6 @@ public:
 
 protected:
 private:
-
 	ClassDefOverride(CsIHit, 1);
 };
 

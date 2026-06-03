@@ -34,7 +34,7 @@ public:
 	std::string MTgt;
 	bool Mask;
 	bool Shield;
-	double Bs; 
+	double Bs;
 	double ICPressure;
 
 	void ReadGeometry(std::string);

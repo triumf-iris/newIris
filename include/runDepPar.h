@@ -31,10 +31,10 @@ public:
 	bool SHT; // Reaction in solid Hydrogen/Deuterium target?
 	int N;	  // Number of Outgoing Particles
 
-	double R1; // Resonance energy
-	double R2; // Resonance energy
-	double W1; // Resonance width
-	double W2; // Resonance width
+	double R1;	  // Resonance energy
+	double R2;	  // Resonance energy
+	double W1;	  // Resonance width
+	double W2;	  // Resonance width
 	double SHAPE; // Resonance shape 0=Breit-Wigner, 1=Gaussian, 2=Square
 
 	void setRunDepPar(std::string);

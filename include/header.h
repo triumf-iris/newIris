@@ -8,7 +8,7 @@
 #include "S3Hit.h"
 #include "IDet.h"
 #include "geometry.h"
-//#include "IPhys.h"
+// #include "IPhys.h"
 
 extern geometry geoP;
 extern YYHit yd;
@@ -27,4 +27,4 @@ extern PTrack buP2;
 extern PTrack buP3;
 extern PTrack buP4;
 extern IDet det;
-//extern IPhys phys;
+// extern IPhys phys;

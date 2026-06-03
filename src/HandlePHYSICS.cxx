@@ -488,14 +488,14 @@ void HandleBOR_PHYSICS(std::string BinPath, std::string Directory, std::string C
 		else
 		{
 #ifndef USE_CATIMA
-		std::cout << "ERROR: dedx tables not supplied!" << std::endl;
-		file->Close();
-		return 1;
+			std::cout << "ERROR: dedx tables not supplied!" << std::endl;
+			file->Close();
+			return 1;
 #endif
-		std::cout << "Using dedx tables from catima" << std::endl;
-		beam.EL.makeCatimaTables(beam.A, beam.Z, geoP.MFoil, geoP.MTgt, beam.mass);
-		lej.EL.makeCatimaTables(lej.A, lej.Z, geoP.MFoil, geoP.MTgt, lej.mass);
-		hej.EL.makeCatimaTables(hej.A, hej.Z, geoP.MFoil, geoP.MTgt, hej.mass);
+			std::cout << "Using dedx tables from catima" << std::endl;
+			beam.EL.makeCatimaTables(beam.A, beam.Z, geoP.MFoil, geoP.MTgt, beam.mass);
+			lej.EL.makeCatimaTables(lej.A, lej.Z, geoP.MFoil, geoP.MTgt, lej.mass);
+			hej.EL.makeCatimaTables(hej.A, hej.Z, geoP.MFoil, geoP.MTgt, hej.mass);
 		}
 
 		/*if (calPhys.boolIdedx == kTRUE)
@@ -662,20 +662,20 @@ void HandlePHYSICS()
 				{
 					energy = det->TSd2rEnergy.at(z);
 					energy = energy + elossFi(lej, energy, 0.1 * 1.822 * 0.5 / cosTheta, IrisMaterial::P); // phosphorus implant
-					energy = energy + elossFi(lej, energy, 0.1 * 2.7 * 0.3 / cosTheta, IrisMaterial::Al); // first metal
-					energy = energy + elossFi(lej, energy, 0.1 * 2.7 * 0.3 / cosTheta, IrisMaterial::Al); // first metal
+					energy = energy + elossFi(lej, energy, 0.1 * 2.7 * 0.3 / cosTheta, IrisMaterial::Al);  // first metal
+					energy = energy + elossFi(lej, energy, 0.1 * 2.7 * 0.3 / cosTheta, IrisMaterial::Al);  // first metal
 					energy = energy + elossFi(lej, energy, 0.1 * 1.822 * 0.5 / cosTheta, IrisMaterial::P); // phosphorus implant
 				}
 				energy = energy + det->TSd1rEnergy.at(z); // energy lost and measured in Sd1
 
-				energy = energy + elossFi(lej, energy, 0.1 * 2.35 * 0.5 / cosTheta, IrisMaterial::B);	   // boron junction implant
-				energy = energy + elossFi(lej, energy, 0.1 * 2.7 * 0.3 / cosTheta, IrisMaterial::Al);	   // first metal
+				energy = energy + elossFi(lej, energy, 0.1 * 2.35 * 0.5 / cosTheta, IrisMaterial::B);	 // boron junction implant
+				energy = energy + elossFi(lej, energy, 0.1 * 2.7 * 0.3 / cosTheta, IrisMaterial::Al);	 // first metal
 				energy = energy + elossFi(lej, energy, 0.1 * 2.65 * 3.5 / cosTheta, IrisMaterial::SiO2); // SiO2
-				energy = energy + elossFi(lej, energy, 0.1 * 2.7 * 1.5 / cosTheta, IrisMaterial::Al);	   // second metal
+				energy = energy + elossFi(lej, energy, 0.1 * 2.7 * 1.5 / cosTheta, IrisMaterial::Al);	 // second metal
 
 				// target/foil Orientation
 				if (geoP.TargetOrientation == kTRUE)
-				{																					 // Foil downstream of target
+				{																							   // Foil downstream of target
 					energy = energy + elossFi(lej, energy, geoP.FoilThickness / cosTheta, IrisMaterial::Foil); // Ag foil energyloss
 				}
 				energy = energy + elossFi(lej, energy, geoP.TargetThickness / 2. / cosTheta, IrisMaterial::Target); // SHT energy loss
@@ -720,19 +720,19 @@ void HandlePHYSICS()
 					CCsI2 = det->TCsI1Channel.at(z);
 					ECsI2 = det->TCsI1Energy.at(z);
 
-					ECsI2 = ECsI2 + elossFi(lej, ECsI2, 6. * 1.4 * 0.1 / cos(thetaR2), IrisMaterial::Mylar);	// Mylar
-					ECsI2 = ECsI2 + elossFi(lej, ECsI2, 0.3 * 2.702 * 0.1 / cos(thetaR2), IrisMaterial::Al);	// 0.3 u Al
-					ECsI2 = ECsI2 + elossFi(lej, ECsI2, 0.1 * 1.822 * 0.1 / cos(thetaR2), IrisMaterial::P);	// 0.1Phosphorus
-				}					 
+					ECsI2 = ECsI2 + elossFi(lej, ECsI2, 6. * 1.4 * 0.1 / cos(thetaR2), IrisMaterial::Mylar); // Mylar
+					ECsI2 = ECsI2 + elossFi(lej, ECsI2, 0.3 * 2.702 * 0.1 / cos(thetaR2), IrisMaterial::Al); // 0.3 u Al
+					ECsI2 = ECsI2 + elossFi(lej, ECsI2, 0.1 * 1.822 * 0.1 / cos(thetaR2), IrisMaterial::P);	 // 0.1Phosphorus
+				}
 				Eb2 = ECsI2 + EYY12; // use measured Yd // change june28
 
-				Eb2 = Eb2 + elossFi(lej, Eb2, 0.1 * 2.35 * 0.05 / cos(thetaR2), IrisMaterial::B);   // 0.05 u B
+				Eb2 = Eb2 + elossFi(lej, Eb2, 0.1 * 2.35 * 0.05 / cos(thetaR2), IrisMaterial::B);  // 0.05 u B
 				Eb2 = Eb2 + elossFi(lej, Eb2, 0.1 * 2.702 * 0.1 / cos(thetaR2), IrisMaterial::Al); // 0.1 u Al
 				IrisEvent->fEYd2_tlP.push_back(Eb2 - ECsI2);
 				Eb2 = Eb2 + elossFi(lej, Eb2, geoP.TargetThickness / 2. / cos(thetaR2), IrisMaterial::Target); // deuteron energy midtarget
 
 				if (geoP.TargetOrientation == kTRUE)
-				{																				// Foil downstream of target
+				{																						  // Foil downstream of target
 					Eb2 = Eb2 + elossFi(lej, Eb2, geoP.FoilThickness / cos(thetaR2), IrisMaterial::Foil); //
 				}
 
@@ -779,19 +779,19 @@ void HandlePHYSICS()
 					CCsI2 = det->TCsI2Channel.at(z);
 					ECsI2 = det->TCsI2Energy.at(z);
 
-					ECsI2 = ECsI2 + elossFi(lej, ECsI2, 0.1 * 1.4 * 6. / cos(thetaR2), IrisMaterial::Mylar);	 // Mylar
+					ECsI2 = ECsI2 + elossFi(lej, ECsI2, 0.1 * 1.4 * 6. / cos(thetaR2), IrisMaterial::Mylar); // Mylar
 					ECsI2 = ECsI2 + elossFi(lej, ECsI2, 0.1 * 2.702 * 0.3 / cos(thetaR2), IrisMaterial::Al); // 0.3 u Al
 					ECsI2 = ECsI2 + elossFi(lej, ECsI2, 0.1 * 1.822 * 0.1 / cos(thetaR2), IrisMaterial::P);
-				}					 // 0.1Phosphorus
+				} // 0.1Phosphorus
 				Eb2 = ECsI2 + EYY12; // use measured Yd // change june28
 
-				Eb2 = Eb2 + elossFi(lej, Eb2, 0.1 * 2.35 * 0.05 / cos(thetaR2), IrisMaterial::B);   // 0.05 u B
+				Eb2 = Eb2 + elossFi(lej, Eb2, 0.1 * 2.35 * 0.05 / cos(thetaR2), IrisMaterial::B);  // 0.05 u B
 				Eb2 = Eb2 + elossFi(lej, Eb2, 0.1 * 2.702 * 0.1 / cos(thetaR2), IrisMaterial::Al); // 0.1 u Al
 				IrisEvent->fEYd1_tlP.push_back(Eb2 - ECsI2);
 				Eb2 = Eb2 + elossFi(lej, Eb2, geoP.TargetThickness / 2. / cos(thetaR2), IrisMaterial::Target); // deuteron energy midtarget
 
 				if (geoP.TargetOrientation == kTRUE)
-				{																				// Foil downstream of target
+				{																						  // Foil downstream of target
 					Eb2 = Eb2 + elossFi(lej, Eb2, geoP.FoilThickness / cos(thetaR2), IrisMaterial::Foil); //
 				}
 
@@ -833,20 +833,20 @@ void HandlePHYSICS()
 				{
 					energy = det->TSd2rEnergy.at(z);
 					energy = energy + elossFi(hej, energy, 0.1 * 1.822 * 0.5 / cosTheta, IrisMaterial::P); // phosphorus implant
-					energy = energy + elossFi(hej, energy, 0.1 * 2.7 * 0.3 / cosTheta, IrisMaterial::Al); // first metal
-					energy = energy + elossFi(hej, energy, 0.1 * 2.7 * 0.3 / cosTheta, IrisMaterial::Al); // first metal
+					energy = energy + elossFi(hej, energy, 0.1 * 2.7 * 0.3 / cosTheta, IrisMaterial::Al);  // first metal
+					energy = energy + elossFi(hej, energy, 0.1 * 2.7 * 0.3 / cosTheta, IrisMaterial::Al);  // first metal
 					energy = energy + elossFi(hej, energy, 0.1 * 1.822 * 0.5 / cosTheta, IrisMaterial::P); // phosphorus implant
 				}
 				energy = energy + det->TSd1rEnergy.at(z); // energy lost and measured in Sd1
 
-				energy = energy + elossFi(hej, energy, 0.1 * 2.35 * 0.5 / cosTheta, IrisMaterial::B);	   // boron junction implant
-				energy = energy + elossFi(hej, energy, 0.1 * 2.7 * 0.3 / cosTheta, IrisMaterial::Al);	   // first metal
+				energy = energy + elossFi(hej, energy, 0.1 * 2.35 * 0.5 / cosTheta, IrisMaterial::B);	 // boron junction implant
+				energy = energy + elossFi(hej, energy, 0.1 * 2.7 * 0.3 / cosTheta, IrisMaterial::Al);	 // first metal
 				energy = energy + elossFi(hej, energy, 0.1 * 2.65 * 3.5 / cosTheta, IrisMaterial::SiO2); // SiO2
-				energy = energy + elossFi(hej, energy, 0.1 * 2.7 * 1.5 / cosTheta, IrisMaterial::Al);	   // second metal
+				energy = energy + elossFi(hej, energy, 0.1 * 2.7 * 1.5 / cosTheta, IrisMaterial::Al);	 // second metal
 
 				// target/foil Orientation
 				if (geoP.TargetOrientation == kTRUE)
-				{																					 // Foil downstream of target
+				{																							   // Foil downstream of target
 					energy = energy + elossFi(hej, energy, geoP.FoilThickness / cosTheta, IrisMaterial::Foil); // Ag foil energyloss
 				}
 				energy = energy + elossFi(hej, energy, geoP.TargetThickness / 2. / cosTheta, IrisMaterial::Target); // SHT energy loss
@@ -890,19 +890,19 @@ void HandlePHYSICS()
 					CCsI1 = det->TCsI1Channel.at(z);
 					ECsI1 = det->TCsI1Energy.at(z);
 
-					ECsI1 = ECsI1 + elossFi(hej, ECsI1, 0.1 * 1.397 * 6. / cos(thetaR), IrisMaterial::Mylar);	// Mylar
-					ECsI1 = ECsI1 + elossFi(hej, ECsI1, 0.1 * 2.702 * 0.3 / cos(thetaR), IrisMaterial::Al); // 0.3 u Al
+					ECsI1 = ECsI1 + elossFi(hej, ECsI1, 0.1 * 1.397 * 6. / cos(thetaR), IrisMaterial::Mylar); // Mylar
+					ECsI1 = ECsI1 + elossFi(hej, ECsI1, 0.1 * 2.702 * 0.3 / cos(thetaR), IrisMaterial::Al);	  // 0.3 u Al
 					ECsI1 = ECsI1 + elossFi(hej, ECsI1, 0.1 * 1.8219 * 0.1 / cos(thetaR), IrisMaterial::P);
-				}					// 0.1Phosphorus
+				} // 0.1Phosphorus
 				Eb1 = ECsI1 + EYY1; // use measured Yd // change june28
 
 				Eb1 = Eb1 + elossFi(hej, Eb1, 0.1 * 2.3502 * 0.05 / cos(thetaR), IrisMaterial::B); // 0.05 u B
-				Eb1 = Eb1 + elossFi(hej, Eb1, 0.1 * 2.702 * 0.1 / cos(thetaR), IrisMaterial::Al); // 0.1 u Al
+				Eb1 = Eb1 + elossFi(hej, Eb1, 0.1 * 2.702 * 0.1 / cos(thetaR), IrisMaterial::Al);  // 0.1 u Al
 				IrisEvent->fEYd1_blP.push_back(Eb1 - ECsI1);
 				Eb1 = Eb1 + elossFi(hej, Eb1, geoP.TargetThickness / 2. / cos(thetaR), IrisMaterial::Target); // deuteron energy midtarget
 
 				if (geoP.TargetOrientation == kTRUE)
-				{																			   // Foil downstream of target
+				{																						 // Foil downstream of target
 					Eb1 = Eb1 + elossFi(hej, Eb1, geoP.FoilThickness / cos(thetaR), IrisMaterial::Foil); //
 				}
 
@@ -949,19 +949,19 @@ void HandlePHYSICS()
 					CCsI1 = det->TCsI2Channel.at(z);
 					ECsI1 = det->TCsI2Energy.at(z);
 
-					ECsI1 = ECsI1 + elossFi(hej, ECsI1, 0.1 * 1.397 * 6. / cos(thetaR), IrisMaterial::Mylar);	// Mylar
-					ECsI1 = ECsI1 + elossFi(hej, ECsI1, 0.1 * 2.702 * 0.3 / cos(thetaR), IrisMaterial::Al); // 0.3 u Al
+					ECsI1 = ECsI1 + elossFi(hej, ECsI1, 0.1 * 1.397 * 6. / cos(thetaR), IrisMaterial::Mylar); // Mylar
+					ECsI1 = ECsI1 + elossFi(hej, ECsI1, 0.1 * 2.702 * 0.3 / cos(thetaR), IrisMaterial::Al);	  // 0.3 u Al
 					ECsI1 = ECsI1 + elossFi(hej, ECsI1, 0.1 * 1.8219 * 0.1 / cos(thetaR), IrisMaterial::P);
-				}					// 0.1Phosphorus
+				} // 0.1Phosphorus
 				Eb1 = ECsI1 + EYY1; // use measured Yd // change june28
 
 				Eb1 = Eb1 + elossFi(hej, Eb1, 0.1 * 2.3502 * 0.05 / cos(thetaR), IrisMaterial::B); // 0.05 u B
-				Eb1 = Eb1 + elossFi(hej, Eb1, 0.1 * 2.702 * 0.1 / cos(thetaR), IrisMaterial::Al); // 0.1 u Al
+				Eb1 = Eb1 + elossFi(hej, Eb1, 0.1 * 2.702 * 0.1 / cos(thetaR), IrisMaterial::Al);  // 0.1 u Al
 				IrisEvent->fEYd2_blP.push_back(Eb1 - ECsI1);
 				Eb1 = Eb1 + elossFi(hej, Eb1, geoP.TargetThickness / 2. / cos(thetaR), IrisMaterial::Target); // deuteron energy midtarget
 
 				if (geoP.TargetOrientation == kTRUE)
-				{																			   
+				{
 					Eb1 = Eb1 + elossFi(hej, Eb1, geoP.FoilThickness / cos(thetaR), IrisMaterial::Foil); // Foil downstream of target
 				}
 
@@ -1004,12 +1004,12 @@ void HandlePHYSICS()
 
 			EbU = det->TYuEnergy.at(0); // use measured Yd // change june28
 
-			EbU = EbU + elossFi(lej, EbU, 0.1 * 2.35 * 0.05 / cosTheta, IrisMaterial::B);			 // 0.05 u B
-			EbU = EbU + elossFi(lej, EbU, 0.1 * 2.70 * 0.1 / cosTheta, IrisMaterial::Al);			 // 0.1 u Al
+			EbU = EbU + elossFi(lej, EbU, 0.1 * 2.35 * 0.05 / cosTheta, IrisMaterial::B);			   // 0.05 u B
+			EbU = EbU + elossFi(lej, EbU, 0.1 * 2.70 * 0.1 / cosTheta, IrisMaterial::Al);			   // 0.1 u Al
 			EbU = EbU + elossFi(lej, EbU, geoP.TargetThickness / 2. / cosTheta, IrisMaterial::Target); // deuteron energy midtarget
 
 			if (geoP.TargetOrientation == kFALSE)
-			{																			// Foil upstream of target
+			{																					  // Foil upstream of target
 				EbU = EbU + elossFi(lej, EbU, geoP.FoilThickness / cosTheta, IrisMaterial::Foil); //
 			}
 
@@ -1043,12 +1043,12 @@ void HandlePHYSICS()
 
 			EbUSd = det->TSurEnergy.at(0);
 			// sector side
-			EbUSd = EbUSd + elossFi(lej, EbUSd, 0.1 * 1.822 * 0.5 / cosTheta, IrisMaterial::P);			   // phosphorus implant
-			EbUSd = EbUSd + elossFi(lej, EbUSd, 0.1 * 2.7 * 0.3 / cosTheta, IrisMaterial::Al);			   // metal
+			EbUSd = EbUSd + elossFi(lej, EbUSd, 0.1 * 1.822 * 0.5 / cosTheta, IrisMaterial::P);				 // phosphorus implant
+			EbUSd = EbUSd + elossFi(lej, EbUSd, 0.1 * 2.7 * 0.3 / cosTheta, IrisMaterial::Al);				 // metal
 			EbUSd = EbUSd + elossFi(lej, EbUSd, geoP.TargetThickness / 2. / cosTheta, IrisMaterial::Target); // deuteron energy midtarget
 
 			if (geoP.TargetOrientation == kFALSE)
-			{																				  // Foil upstream of target
+			{																							// Foil upstream of target
 				EbUSd = EbUSd + elossFi(lej, EbUSd, geoP.FoilThickness / cosTheta, IrisMaterial::Foil); //
 			}
 

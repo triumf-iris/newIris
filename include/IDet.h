@@ -123,7 +123,7 @@ public:
 	std::vector<Double_t> TZdPhi;
 
 	void Clear(Option_t *option = "") override;
-ClassDefOverride(IDet, 1)
+	ClassDefOverride(IDet, 1)
 };
 
 #endif

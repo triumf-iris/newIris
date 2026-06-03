@@ -5,7 +5,7 @@
 
 ClassImp(IRISHit)
 
-IRISHit::IRISHit()
+	IRISHit::IRISHit()
 {
 	Clear();
 }

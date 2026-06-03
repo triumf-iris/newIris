@@ -12,15 +12,15 @@
 #include "TGenPhaseSpace.h"
 #include "TStopwatch.h"
 #include "YYHit.h"
-//#include "IPhys.h"
+// #include "IPhys.h"
 #include "CsIHit.h"
 #include "IDet.h"
 #include "PTrack.h"
 #include "S3Hit.h"
-//#include "physHits.h"
+// #include "physHits.h"
 #include "header.h"
 #include "detHits.h"
-//#include "IPhys.h"
+// #include "IPhys.h"
 #include "eloss.h"
 #include "IrisMaterial.h"
 #include "CalibPHYSICS.h"
@@ -41,7 +41,7 @@ PTrack blP, tlP;
 PTrack blDecP, tlDecP1, tlDecP2;
 PTrack buP1, buP2, buP3, buP4;
 IDet det;
-//IPhys phys;
+// IPhys phys;
 
 nucleus A, a, B, b, c, d, e, f, decB, decc, decd;
 
@@ -92,7 +92,7 @@ PTrack *ipbuP2 = &buP2;
 PTrack *ipbuP3 = &buP3;
 PTrack *ipbuP4 = &buP4;
 IDet *ipdet = &det;
-//IPhys *ipphys = &phys;
+// IPhys *ipphys = &phys;
 
 TLorentzVector *LVb = &LorVb;
 TLorentzVector *LVB = &LorVB;
@@ -132,7 +132,7 @@ void clearEvt()
 	sd2.Clear();
 	su.Clear();
 	det.Clear();
-	//phys.Clear();
+	// phys.Clear();
 	LorVb.Clear();
 	LorVB.Clear();
 	LorVBdec.Clear();
@@ -523,10 +523,10 @@ void HandleSIMULATE(int nsim, std::string dwbaname)
 	target.SetXYZT(0.0, 0.0, 0.0, ma);
 	beam.SetXYZT(0.0, 0.0, PA, mA + EA);
 	Sys = beam + target;
-	//phys.beamE = EA * 1000.;
-	//phys.beamBeta = Sys.Beta();
-	//phys.beamGamma = Sys.Gamma();
-	//phys.beamEcm = EA * ma * 1000. / (mA + ma);
+	// phys.beamE = EA * 1000.;
+	// phys.beamBeta = Sys.Beta();
+	// phys.beamGamma = Sys.Gamma();
+	// phys.beamEcm = EA * ma * 1000. / (mA + ma);
 
 	printf("\nEnergy after IC window: %.2lf MeV\n", E_after_IC);
 	if (geoP.TargetOrientation == 1)
@@ -545,9 +545,9 @@ void HandleSIMULATE(int nsim, std::string dwbaname)
 		printf("Energy at behind target: %.2lf MeV\n", E_after_Tgt);
 	}
 
-	//printf("\nBeta at center of target: %.3lf \n", phys.beamBeta);
-	//printf("Gamma at center of target: %.3lf \n", phys.beamGamma);
-	//printf("CM Energy at center of target: %.2lf MeV\n\n", phys.beamEcm);
+	// printf("\nBeta at center of target: %.3lf \n", phys.beamBeta);
+	// printf("Gamma at center of target: %.3lf \n", phys.beamGamma);
+	// printf("CM Energy at center of target: %.2lf MeV\n\n", phys.beamEcm);
 
 	printf("YY1 detector at distance of %.1lf mm from target, covering theta range from %.2lf to %.2lf\n", geoP.YdDistance, yd.ThetaMin(geoP.YdDistance), yd.ThetaMax(geoP.YdDistance));
 	printf("CsI detector at distance of %.1lf mm from target, covering theta range from %.2lf to %.2lf\n", geoP.YdDistance + 11.6, csi.ThetaMin(geoP.YdDistance + 11.6), csi.ThetaMax(geoP.YdDistance + 11.6));
@@ -625,10 +625,10 @@ void HandleSIMULATE(int nsim, std::string dwbaname)
 		Sys = beam + target;
 		boostvect = Sys.BoostVector();
 
-		//phys.beamE = EA * 1000.;
-		//phys.beamBeta = Sys.Beta();
-		//phys.beamGamma = Sys.Gamma();
-		//phys.beamEcm = EA * ma * 1000. / (mA + ma);
+		// phys.beamE = EA * 1000.;
+		// phys.beamBeta = Sys.Beta();
+		// phys.beamGamma = Sys.Gamma();
+		// phys.beamEcm = EA * ma * 1000. / (mA + ma);
 
 		// width = runDepPar.W/1000.;
 
@@ -686,7 +686,7 @@ void HandleSIMULATE(int nsim, std::string dwbaname)
 
 		TLorentzVector Frag = Sys - *LVb;
 
-		//phys.Qgen = (mA + ma - mb - Frag.M()) * 1000.;
+		// phys.Qgen = (mA + ma - mb - Frag.M()) * 1000.;
 
 		tlP.T = LVb->Theta();
 		blP.T = LVB->Theta();
@@ -801,26 +801,26 @@ void HandleSIMULATE(int nsim, std::string dwbaname)
 		else
 			printf("ERROR: Cannot convert target thickness to mm!");
 		reacPos.SetXYZ(reacX, reacY, adjustZpos * convertMM); // all in units of mm
-		
+
 		if (!seqdec)
 		{
 			blP = TgtELoss(blP, B, geoP, reacZ, isSHTReac); // Calculate the energy loss of the particle in Foil and SHT
 			HEHit = detHits(blP, B, reacPos, geoP.Mask, geoP.Shield, 0);
-			//QvalueCalculate(B, E_center_Tgt, mB, mA, ma, 0);
+			// QvalueCalculate(B, E_center_Tgt, mB, mA, ma, 0);
 			tlP = TgtELoss(tlP, b, geoP, reacZ, isSHTReac); // Calculate the energy loss of the particle in Foil and SHT
 			// LEHit = detHits(tlP, b, reacPos,geoP.Mask,geoP.Shield, 1);
 			detHits(tlP, b, reacPos, geoP.Mask, geoP.Shield, 1);
-			//QvalueCalculate(b, E_center_Tgt, mb, mA, ma, 1);
+			// QvalueCalculate(b, E_center_Tgt, mb, mA, ma, 1);
 		}
 		else
 		{
 			blDecP = TgtELoss(blDecP, decB, geoP, reacZ, isSHTReac); // Calculate the energy loss of the particle in Foil and SHT
 			HEHit = detHits(blDecP, decB, reacPos, geoP.Mask, geoP.Shield, 0);
-			//QvalueCalculate(B, E_center_Tgt, mB, mA, ma, 0);
+			// QvalueCalculate(B, E_center_Tgt, mB, mA, ma, 0);
 			tlP = TgtELoss(tlP, b, geoP, reacZ, isSHTReac); // Calculate the energy loss of the particle in Foil and SHT
 			// LEHit = detHits(tlP, b, reacPos,geoP.Mask,geoP.Shield,1);
 			detHits(tlP, b, reacPos, geoP.Mask, geoP.Shield, 1);
-			//QvalueCalculate(b, E_center_Tgt, mb, mA, ma, 1);
+			// QvalueCalculate(b, E_center_Tgt, mb, mA, ma, 1);
 			if (decc.Z > 0)
 			{
 				tlDecP1 = TgtELoss(tlDecP1, decc, geoP, reacZ, isSHTReac); // Calculate the energy loss of the particle in Foil and SHT
@@ -854,7 +854,7 @@ void HandleSIMULATE(int nsim, std::string dwbaname)
 		}
 		// Calculate energy loss in SSB
 		Double_t SSBE = eloss(A, 14. / 28., E_before_SSB, 500. * 2.3212 * 0.1, IrisMaterial::Si);
-		//phys.SSBdE = rndm->Gaus(SSBE, 0.05 * SSBE);
+		// phys.SSBdE = rndm->Gaus(SSBE, 0.05 * SSBE);
 		Double_t SSBdE = rndm->Gaus(SSBE, 0.05 * SSBE);
 
 		Bool_t sortEnergies = 1; // sort detector hits by energy. Does not work with S3 Detector.
@@ -912,7 +912,7 @@ void HandleSIMULATE(int nsim, std::string dwbaname)
 			buP4.Tcm = TMath::RadToDeg() * LVfbu->Theta();
 		}
 
-		//printf("Writing %s: %.6d of %.6d events processed. Last event: %d tries.\r", OutputFile.data(), Evnt, nsim, whilecount);
+		// printf("Writing %s: %.6d of %.6d events processed. Last event: %d tries.\r", OutputFile.data(), Evnt, nsim, whilecount);
 		Evnt++;
 		Iris->Fill();
 	}
