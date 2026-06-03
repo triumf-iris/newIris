@@ -8,7 +8,7 @@ OBJECTDIR = $(BASEDIR)/obj
 BINARYDIR = $(BASEDIR)/bin
 HEADER = -I$(INCLUDEDIR) #-I$(TREEIRIS)/include
 
-USE_CATIMA ?= 1
+USE_CATIMA ?= 0
 
 CATIMAPATH ?= /home/iris/curtis/NewIris/catima/install
 CATIMALIBDIR =

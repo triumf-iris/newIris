@@ -1,79 +1,146 @@
-# simIris
-Simulation tool for the IRIS experiment @ TRIUMF
+# newIris
+Suite of analysis and simulation tools for the IRIS experiment @ TRIUMF
+
+physIris for analysis.
+simIris for simulation.
 
 
 ## Download and Installation ##
 	
-simIris requires ROOT (https://root.cern.ch).
+newIris requires ROOT (https://root.cern.ch).
 
 Make required changes into Makefile for MacOS 
 
-To install simIris use
+To install newIris use
 
-	git clone https://github.com/iris-triumf/simIris
-	cd simIris
+	git clone https://github.com/triumf-iris/newIris
+	cd newIris
 	make
 
-## testing the simIris ##
-The test folder contains the example of reaction file and geometry file for 12C(d,d)12C reaction channel @12 AMeV. 
-In main simiris directory type 
-	./simulate
-
-it will generate root file for 12C(d,d)12C in test folder
-
-## Running simIris ##
-
-From the main simIris folder, you can run simIris with
- 
-	./bin/simIris --output=/path/to/to/your/output.file --reaction=/path/to/your/reaction.file --geo=/path/to/your/geometry.file --dedx_dir=/path/to/folder/containing/energy_loss_tables --events=number of events to be simulated [--run=run number]
-
-Configuration files for the reaction and the geometry as well as energy loss tables have to be provided, the output file will be a root file which can be further analysed using physIris.
-
-
-## The Geometry File ##
-
-The geometry file contains a set of parameters describing the experimental setup of IRIS to be used in the simulation. The following parameters are available:
-	
-	Bs: Size of beam spot in mm (usually ~2mm)			
-	ICPressure: Gas pressure of ionization chamber in Torr (usually 19.5 Torr or lower)
-	FOIL: Material of the foil (Ag for all experiments using the H2 or D2 target)			
-	TFoil: Thickness of the foil in mg/cm2 (4.816 for current Ag foil)
-	AoZFoil: Mass to charge ration of foil (2.3 for Ag foil)
-	TARGET: Target material (H or D)		
-	TTgt: Target thickness in mg/cm2
-	TSD[1-2],TSU,TYY[1-8],TYU[1-8]: Detector thicknesses in um for S3-1, S3-2, upstream S3, and 8 YY1 array segments for the downstream and the upstream array
-	DSD,DSU,DYY,DYU: Detector distances from target in mm for S3-1, upstream S3, downstream and upstream YY1 arrays. S3-2 is at a fixed distance to S3-1. Convention: Distances for the upstream detectors have to be negative	
-	MASK: Use the target mask? (1=yes, 0=no)
-	SHIELD: Use the heat shield? (1=yes, 0=no)
-	ORIENTATION: Orientation of the target system (0=foil upstream of target, 1=foil downstream of target)
-
-
-## The Reaction Parameter File ##
-
-The reaction parameter file contains information about the reaction to be simulated. The following parameters are available:
-
-	N: number of particles in outgoing channel, Reactions with up to 6 particles are supported by simIris
-	A,a,B,b,c,d,e,f: Define the particles involved in the reaction: A(a,b)B[+c+d+e+f] 
-	R1,W1: Excitation energy and resonance widht of beam-like ejectile in MeV
-	R2,W2: Excitation energy and resonance widht of target-like ejectile in MeV
-	E: Beam energy in MeV
-	SHT: Reaction on the solid H2/D2 target? (1=yes, 0=no)
-
-Each parameter in both the geometry and the reaction parameter file has to be separated from the value by an "="-sign without any spaces, e.g. ICPressure=19.5
-
-## Energy loss tables ##
-
-simIris uses SRIM  energy loss tables to calculate the energy loss of particles going through detector materials or the target. Tables in a usable format can be created using LISE++.
-
-## CATIMA ##
+### Installing with CATIMA ###
 
 simIris supports using [catima](https://github.com/hrosiak/catima) for generating energy loss table automatically based on the geometry and reaction input files. If you want to use this functionality, install catima an your system then compile using the following flags
 
 	make USE_CATIMA=1 CATIMAPATH=[path to catima]
 
-To run a simulation using catima, omit the --dedx_files when running simiris and it will default to generating tables from catima.
+## Testing simulation and analysis ##
+The testMacros/testSimulation folder has an example runSim.sh and runPhys.sh for simulating and analyzing a 12C + D experiment. Configuration files for this test experiment are in the Configurationfiles folder.
 
-## Output files
+Run runSim.sh first to generate the simulated data file using simIris.
+
+	./runSim.sh #of-events
+
+Run runPhys.sh second to analyze the simulated data file using physIris, generating a new ROOT file with Q-values and other physics information.
+
+	./runPhys.sh
+
+## Running physIris ##
+
+From the main newIris folder, you can run physIris with
+ 
+	./bin/physIris /path/to/your/input-folder -c=/path/to/your/config.file -o=/path/to/to/your/output.file 
+
+A configuration file must be provided. See Config Files section below for more information.
+
+## Running simIris ##
+
+From the main newIris folder, you can run simIris with
+ 
+	./bin/simIris -c=/path/to/your/config.file -o=/path/to/to/your/output.file -e=number of events
+
+A configuration file must be provided. See Config Files section below for more information.
+
+
+## The Configuration Files ##
+
+The newIris codes, simIris and physIris, both use a common set of configuration files.
+
+A master configuration file, a geometry file, and a run dependent parameters file. Each is detailed below.
+
+### The Master Configuration File ###
+
+The Master Configuration File contains the locations of the geometry and run dependent parameter files. Optionally it can also contain the location of dEdx files, if desired. If dEdx files are not included, CATIMA will be used. An example can be found at
+	
+	Configurationfiles/phys_config_12C_2H_LISE.txt
+
+### The Geometry File ###
+
+The geometry file contains a set of parameters describing the experimental setup of IRIS. See the example file for more information
+
+	Configurationfiles/geometry.txt
+
+### The Run Dependent Parameter File ###
+
+The reaction parameter file contains information about the reaction for the given runs. See the example for more information
+
+	Configurationfiles/runDepPar_12C_2H.txt
+
+## Energy loss tables##
+
+simIris and physIris both require energy loss tables. Two options exist, files from LISE++ or letting the code use CATIMA to generate the tables. 
+
+### LISE++ ###
+
+simIris and physIris use SRIM  energy loss tables to calculate the energy loss of particles going through detector materials or the target. Tables in a usable format can be created using LISE++.
+
+Include the location to these files in the master configuration file as
+
+	DEDX_X=/path/to/LiseFiles
+
+### CATIMA ###
+
+To run a simulation using catima, omit the DEDX_X line from the master configuration file and it will default to generating tables from catima.
+
+NOTE: must be compiled with catima
+
+## Output file for physIris ##
+
+The resulting output is a root file containing the TTree Iris. In addition to the branches already present in the input files, it contains the following branches:
+
+	fEYY1: dead-layer corrected YY1 energy
+	fECsI1: dead-layer corrected CsI1 energy
+	fECsI2: dead-layer corrected CsI2 energy
+	
+	fThetacm1/2/U: center-of-mass angle from CsI1/CsI2/upstream detectors
+	fThetaD/DU: downstream/upstream angles
+	
+	fEBAC: beam energy from accelerator
+	fmA/a/B/b: mass of particle A,a,B,b
+	fEBeam: beam energy at center of target
+	fbetaCM: beam beta
+	fgammaCM: beam gamma
+	fPA: beam momentum at center of target
+	
+	fEb1/2/U/USd: Reconstructed light particle energy using CsI1/CsI2/upstream YY1/upstream S3 
+	fPb1/2/U/USd: Reconstructed light particle momentum using CsI1/CsI2/upstream YY1/upstream S3 
+	fPb1/2/U/USdy: Reconstructed light particle momentum y-component using CsI1/CsI2/upstream YY1/upstream S3
+	fPb1/2/U/USdxcm: Reconstructed light particle momentum x-component in center-of-mass using CsI1/CsI2/upstream YY1/upstream S3
+ 
+	fLP:	Light particle energy
+	fHP:	Heavy particle energy
+	fEB:	Measured heavy particle energy
+	
+	fEB1/2/U/USd:	Calculated heavy particle energy using CsI1/CsI2/upstream YY1/upstream S3
+	fPB1/2/U/USd:	Calculated heavy particle momentum using CsI1/CsI2/upstream YY1/upstream S3
+	fQv1/2/U/USd:	Q-value using CsI1/CsI2/upstream YY1/upstream S3
+	
+Apart from that, the branches TSdETot and TYdCsI1/2ETot, i.e. the dead-layer corrected total energies are filled by physIris. 
+
+A few other variables are maybe left in for debugging of the Q-value calculation:
+
+	fkBF: Ratio of Beam particle mass and 109-Ag foil nucleus mass
+	fA/B/C: quadratic equation parameters
+		A = kBF-1.;
+		B = 2.0*PResid* cos(TMath::DegToRad()*det->TSd1Theta.at(0));
+		C = -1.*(kBF+1)*PResid*PResid; 
+	fPResid: Momentum of residue
+		PResid = sqrt(2.*det->TSdETot*mA);
+	fPBeam: Calculated beam momentum after scattering off Ag
+		if (A!=0)    PBeam = (sqrt(B*B-4.*A*C)-B)/(2*A);
+
+
+
+## Output file for simIris ##
 
 The output root file of simIris contains a tree with the following objects:
 
