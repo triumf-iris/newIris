@@ -44,14 +44,14 @@ LDFLAGS = -O2
 
 all:  $(BINARYDIR)/simIris $(BINARYDIR)/physIris
 
-$(BINARYDIR)/simIris: $(OBJECTDIR)/simIris.o $(OBJECTDIR)/reacParams.o $(OBJECTDIR)/geoParams.o $(OBJECTDIR)/dwba.o $(OBJECTDIR)/shieldClear.o $(LIBDIR)/libIRISEvent.so
+$(BINARYDIR)/simIris: $(OBJECTDIR)/simIris.o $(OBJECTDIR)/HandleSIMULATE.o $(OBJECTDIR)/dwba.o $(OBJECTDIR)/shieldClear.o $(LIBDIR)/libIRISEvent.so
 	$(CXX) -o $@ $(CXXFLAGS) $^ $(CATIMALIBDIR) $(ROOTGLIBS) $(CATIMALIBS) -lm -lz -lutil -lpthread -lrt
 
-$(BINARYDIR)/physIris: $(OBJECTDIR)/physIris.o $(OBJECTDIR)/runDepPar.o $(OBJECTDIR)/HandlePHYSICS.o $(OBJECTDIR)/CalibPHYSICS.o $(OBJECTDIR)/Graphsdedx.o $(OBJECTDIR)/geometry.o $(LIBDIR)/libIRISEvent.so
+$(BINARYDIR)/physIris: $(OBJECTDIR)/physIris.o $(OBJECTDIR)/HandlePHYSICS.o $(OBJECTDIR)/Graphsdedx.o $(LIBDIR)/libIRISEvent.so
 	$(CXX) -o $@ $(CXXFLAGS) $^ $(CATIMALIBDIR) $(ROOTGLIBS) $(CATIMALIBS) -lm -lz -lutil -lpthread -lrt
 
 #remove -lnsl and -lrt for macOS
-$(LIBDIR)/libIRISEvent.so: $(OBJECTDIR)/TEvent.o $(OBJECTDIR)/ITdc.o $(OBJECTDIR)/nucleus.o $(OBJECTDIR)/dedx.o $(OBJECTDIR)/PTrack.o $(OBJECTDIR)/IRISHit.o $(OBJECTDIR)/YYHit.o $(OBJECTDIR)/IPhys.o $(OBJECTDIR)/CsIHit.o $(OBJECTDIR)/S3Hit.o $(OBJECTDIR)/IDet.o  $(OBJECTDIR)/IScaler.o $(OBJECTDIR)/eloss.o $(OBJECTDIR)/IRISEventDict.o
+$(LIBDIR)/libIRISEvent.so: $(OBJECTDIR)/TEvent.o $(OBJECTDIR)/ITdc.o $(OBJECTDIR)/nucleus.o $(OBJECTDIR)/dedx.o $(OBJECTDIR)/PTrack.o $(OBJECTDIR)/IRISHit.o $(OBJECTDIR)/YYHit.o $(OBJECTDIR)/IPhys.o $(OBJECTDIR)/CsIHit.o $(OBJECTDIR)/S3Hit.o $(OBJECTDIR)/IDet.o  $(OBJECTDIR)/IScaler.o $(OBJECTDIR)/eloss.o $(OBJECTDIR)/runDepPar.o $(OBJECTDIR)/CalibPHYSICS.o $(OBJECTDIR)/geometry.o $(OBJECTDIR)/IRISEventDict.o
 	$(LD) $(SOFLAGS) $(LDFLAGS) $(CATIMALIBDIR) $(ROOTGLIBS) $(CATIMALIBS) $^ -o $@
 	@echo "$@ done"
 
@@ -101,6 +101,9 @@ $(OBJECTDIR)/PTrack.o: $(SOURCEDIR)/PTrack.cxx
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 $(OBJECTDIR)/HandlePHYSICS.o: $(SOURCEDIR)/HandlePHYSICS.cxx
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+$(OBJECTDIR)/HandleSIMULATE.o: $(SOURCEDIR)/HandleSIMULATE.cxx
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 $(OBJECTDIR)/eloss.o: $(SOURCEDIR)/eloss.cxx

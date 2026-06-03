@@ -11,7 +11,9 @@ public:
 
 	double TargetThickness;
 	int TargetOrientation;
+	double AoZTgt;
 	double FoilThickness;
+	double AoZFoil;
 	double xShift;
 	double yShift;
 	double YdThickness[8];
@@ -29,7 +31,11 @@ public:
 	double SdInnerRadius;
 	double SdOuterRadius;
 	std::string MFoil;
-	std::string MTgt;	
+	std::string MTgt;
+	bool Mask;
+	bool Shield;
+	double Bs; 
+	double ICPressure;
 
 	void ReadGeometry(std::string);
 	void Print();

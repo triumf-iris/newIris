@@ -39,9 +39,11 @@ void runDep::setRunDepPar(std::string filename)
 		
 		// parse float parameter (if any)
 		double v;
+		int vi;
 		char cval[256];	
 		std::string strval;
 		sscanf(val,"%lf",&v);
+		sscanf(val,"%d",&vi);
 		sscanf(val,"%s",cval);
 		strval=cval;
 
@@ -55,11 +57,23 @@ void runDep::setRunDepPar(std::string filename)
 		if (strcmp(buffer,"a")==0)	  	na = strval;
 		if (strcmp(buffer,"B")==0)	  	nB = strval;
 		if (strcmp(buffer,"b")==0)	  	nb = strval;
+		if (strcmp(buffer,"c")==0)	  	nc = strval;
+		if (strcmp(buffer,"d")==0)	  	nd = strval;
+		if (strcmp(buffer,"e")==0)	  	ne = strval;
+		if (strcmp(buffer,"f")==0)	  	nf = strval;
+		if (strcmp(buffer,"foil")==0)	nfoil = strval;
 		if (strcmp(buffer,"Q")==0)	  	Q = v;
 		if (strcmp(buffer,"RUNPAR")==0){  	
 			runPar = strval;
 			bool_runPar = true;
 		}
+		if (strcmp(buffer,"SHT")==0)	  	SHT = vi;
+		if (strcmp(buffer,"N")==0)	  	N = vi;
+		if (strcmp(buffer,"R1")==0)	  	R1 = v;
+		if (strcmp(buffer,"R2")==0)	  	R2 = v;
+		if (strcmp(buffer,"W1")==0)	  	W1 = v;
+		if (strcmp(buffer,"W2")==0)	  	W2 = v;
+		if (strcmp(buffer,"SHAPE")==0)	SHAPE = v;
 	}
 	fclose(parFile);
 }

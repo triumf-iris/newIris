@@ -1,5 +1,3 @@
-#include "reacParams.h"
-#include "geoParams.h"
 #include "nucleus.h"
 #include "shieldClear.h"
 #include "eloss.h"
@@ -9,10 +7,10 @@
 #include "CsIHit.h"
 #include "S3Hit.h"
 #include "IDet.h"
-#include "IPhys.h"
+#include "geometry.h"
+//#include "IPhys.h"
 
-extern reacParams reacPrm;
-extern geoParams geoPrm;
+extern geometry geoP;
 extern YYHit yd;
 extern YYHit yu;
 extern CsIHit csi;
@@ -29,4 +27,4 @@ extern PTrack buP2;
 extern PTrack buP3;
 extern PTrack buP4;
 extern IDet det;
-extern IPhys phys;
+//extern IPhys phys;

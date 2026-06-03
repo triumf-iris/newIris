@@ -1,5 +1,6 @@
 #include "header.h"
 #include "eloss.h"
+#include "geometry.h"
 #include "IrisMaterial.h"
 
 Bool_t detHits(PTrack tr, nucleus ncl, TVector3 reacPos, Bool_t maskIn, Bool_t shieldIn, Int_t P)
@@ -18,10 +19,12 @@ Bool_t detHits(PTrack tr, nucleus ncl, TVector3 reacPos, Bool_t maskIn, Bool_t s
 	Double_t ETmp = tr.Ebt;
 	Double_t ETmpU = tr.Ebt;
 
+	//std::cout << "Ebt = " << ETmp << std::endl;
+
 	if (mask && shield && backward)
 	{
-		YuHit = yu.Hit(tr.T, tr.P, geoPrm.DYYU, reacPos, P);
-		SuHit = su.Hit(tr.T, tr.P, geoPrm.DS3U, reacPos, P);
+		YuHit = yu.Hit(tr.T, tr.P, geoP.YuDistance, reacPos, P);
+		SuHit = su.Hit(tr.T, tr.P, geoP.SuDistance, reacPos, P);
 		if (YuHit)
 			ETmpU = yu.ELoss(ncl, ETmpU, tr.T);
 		if (SuHit)
@@ -30,12 +33,12 @@ Bool_t detHits(PTrack tr, nucleus ncl, TVector3 reacPos, Bool_t maskIn, Bool_t s
 
 	if (mask && shield && forward)
 	{
-		YYHit = yd.Hit(tr.T, tr.P, geoPrm.DYY, reacPos, P);
+		YYHit = yd.Hit(tr.T, tr.P, geoP.YdDistance, reacPos, P);
 		if (YYHit)
-			CsIHit = csi.Hit(tr.T, tr.P, geoPrm.DYY + 11.6, reacPos, P);
-		Sd1Hit = sd1.Hit(tr.T, tr.P, geoPrm.DS3, reacPos, P);
+			CsIHit = csi.Hit(tr.T, tr.P, geoP.YdDistance + 11.6, reacPos, P);
+		Sd1Hit = sd1.Hit(tr.T, tr.P, geoP.Sd1Distance, reacPos, P);
 		if (Sd1Hit)
-			Sd2Hit = sd2.Hit(tr.T, tr.P, geoPrm.DS3 + 14.8, reacPos, P);
+			Sd2Hit = sd2.Hit(tr.T, tr.P, geoP.Sd1Distance + 14.8, reacPos, P);
 		if (YYHit)
 			ETmp = yd.ELoss(ncl, ETmp, tr.T);
 		if (CsIHit)
@@ -50,26 +53,27 @@ Bool_t detHits(PTrack tr, nucleus ncl, TVector3 reacPos, Bool_t maskIn, Bool_t s
 }
 
 // Calculate the energy loss of the scattered particles in Foil and SHT
-PTrack TgtELoss(PTrack tr, nucleus ncl, geoParams g, Double_t reacZ, Bool_t isSHTReac)
+PTrack TgtELoss(PTrack tr, nucleus ncl, geometry g, Double_t reacZ, Bool_t isSHTReac)
 {
+	//std::cout << "tr.E = " << tr.E << std::endl;
 	if (isSHTReac)
 	{ // Reaction in SHT
-		if (g.Orientation == 0 && tr.T < TMath::Pi() / 2.)
+		if (g.TargetOrientation == 0 && tr.T < TMath::Pi() / 2.)
 		{ // foil before target, theta<90 deg
 			tr.FoildE = 0.;
-			tr.TrgtdE = eloss(ncl, 1. / g.AoZTgt, tr.E, (g.TTgt - reacZ) / TMath::Cos(tr.T), IrisMaterial::Target);
+			tr.TrgtdE = eloss(ncl, 1. / g.AoZTgt, tr.E, (g.TargetThickness - reacZ) / TMath::Cos(tr.T), IrisMaterial::Target);
 		}
-		if (g.Orientation == 0 && tr.T > TMath::Pi() / 2.)
+		if (g.TargetOrientation == 0 && tr.T > TMath::Pi() / 2.)
 		{ // foil before target, theta>90 deg
 			tr.TrgtdE = eloss(ncl, 1. / g.AoZTgt, tr.E, reacZ / TMath::Cos(TMath::Pi() - tr.T), IrisMaterial::Target);
-			tr.FoildE = eloss(ncl, 1. / g.AoZFoil, tr.E - tr.TrgtdE, g.TFoil / TMath::Cos(TMath::Pi() - tr.T), IrisMaterial::Foil);
+			tr.FoildE = eloss(ncl, 1. / g.AoZFoil, tr.E - tr.TrgtdE, g.FoilThickness / TMath::Cos(TMath::Pi() - tr.T), IrisMaterial::Foil);
 		}
-		if (g.Orientation == 1 && tr.T < TMath::Pi() / 2.)
+		if (g.TargetOrientation == 1 && tr.T < TMath::Pi() / 2.)
 		{ // foil after target, theta<90 deg
-			tr.TrgtdE = eloss(ncl, 1. / g.AoZTgt, tr.E, (g.TTgt - reacZ) / TMath::Cos(tr.T), IrisMaterial::Target);
-			tr.FoildE = eloss(ncl, 1. / g.AoZFoil, tr.E - tr.TrgtdE, g.TFoil / TMath::Cos(tr.T), IrisMaterial::Foil);
+			tr.TrgtdE = eloss(ncl, 1. / g.AoZTgt, tr.E, (g.TargetThickness - reacZ) / TMath::Cos(tr.T), IrisMaterial::Target);
+			tr.FoildE = eloss(ncl, 1. / g.AoZFoil, tr.E - tr.TrgtdE, g.FoilThickness / TMath::Cos(tr.T), IrisMaterial::Foil);
 		}
-		if (g.Orientation == 1 && tr.T > TMath::Pi() / 2.)
+		if (g.TargetOrientation == 1 && tr.T > TMath::Pi() / 2.)
 		{ // foil after target, theta>90 deg
 			tr.TrgtdE = eloss(ncl, 1. / g.AoZTgt, tr.E, reacZ / TMath::Cos(TMath::Pi() - tr.T), IrisMaterial::Target);
 			tr.FoildE = 0.;
@@ -81,7 +85,7 @@ PTrack TgtELoss(PTrack tr, nucleus ncl, geoParams g, Double_t reacZ, Bool_t isSH
 		if (tr.T < TMath::Pi() / 2.)
 		{
 			tr.TrgtdE = 0.;
-			tr.FoildE = eloss(ncl, 1. / g.AoZFoil, tr.E, (g.TFoil - reacZ) / TMath::Cos(tr.T), IrisMaterial::Foil);
+			tr.FoildE = eloss(ncl, 1. / g.AoZFoil, tr.E, (g.FoilThickness - reacZ) / TMath::Cos(tr.T), IrisMaterial::Foil);
 		}
 		if (tr.T > TMath::Pi() / 2.)
 		{ // foil after target, theta>90 deg
@@ -89,6 +93,8 @@ PTrack TgtELoss(PTrack tr, nucleus ncl, geoParams g, Double_t reacZ, Bool_t isSH
 			tr.TrgtdE = 0;
 		}
 	}
+
+	//std::cout << "tr.Ebt: " << tr.Ebt << "; tr.FoildE: " << tr.FoildE <<"; tr.TrgtdE: " << tr.TrgtdE << std::endl;
 
 	tr.Ebt = tr.E - tr.FoildE - tr.TrgtdE; // calculate energy of particle after foil and target
 	// printf("In: %f\tFoil: %f\tTarget: %f\tLeft: %f\n",tr.E,tr.FoildE,tr.TrgtdE,tr.Ebt);

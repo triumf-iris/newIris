@@ -134,14 +134,26 @@ void geometry::ReadGeometry(std::string filename)
 				yShift = v;
 			if (strcmp(buffer, "TARGET_THICKNESS") == 0)
 				TargetThickness = v;
+			if (strcmp(buffer, "AoZTgt") == 0)
+				AoZTgt = v;
 			if (strcmp(buffer, "TARGET_ORIENTATION") == 0)
 				TargetOrientation = vi;
 			if (strcmp(buffer, "FOIL_THICKNESS") == 0)
 				FoilThickness = v;
+			if (strcmp(buffer, "AoZFoil") == 0)
+				AoZFoil = v;
 			if (strcmp(buffer,"FOIL")==0)
 	   			MFoil= vstr;	
 			if (strcmp(buffer,"TARGET")==0)
 	   			MTgt = vstr;	
+			if (strcmp(buffer,"MASK")==0)
+	   			Mask = vi;	
+			if (strcmp(buffer,"SHIELD")==0)
+	   			Shield = vi;	
+			if (strcmp(buffer,"Bs")==0)
+	   			Bs = v;	
+			if (strcmp(buffer,"ICPressure")==0)
+	   			ICPressure = v;	
 		}
 		fclose(parFile);
 	}
@@ -171,4 +183,8 @@ void geometry::Print()
 	printf("Outer radius S3: %.1f mm\n", SdOuterRadius);
 	printf("Foil:\t Material: %s\tthickness: %.2lf mg/cm2\n",MFoil.data(),FoilThickness);
 	printf("Target:\t Material: %s\tthickness: %.1lf mg/cm2\n",MTgt.data(),TargetThickness);
+	printf("IC:\t Pressure: %.2lf Torr\n",ICPressure);
+	printf("Size of beamspot: %.1lf mm\n",Bs);
+	printf("Using heat shield: %s\n",Shield ? "Yes" : "No");
+	printf("Using target mask: %s\n",Mask ? "Yes" : "No");
 }
