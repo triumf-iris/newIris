@@ -51,7 +51,7 @@ $(BINARYDIR)/physIris: $(OBJECTDIR)/physIris.o $(OBJECTDIR)/HandlePHYSICS.o $(OB
 	$(CXX) -o $@ $(CXXFLAGS) $^ $(CATIMALIBDIR) $(ROOTGLIBS) $(CATIMALIBS) -lm -lz -lutil -lpthread -lrt
 
 #remove -lnsl and -lrt for macOS
-$(LIBDIR)/libIRISEvent.so: $(OBJECTDIR)/TEvent.o $(OBJECTDIR)/ITdc.o $(OBJECTDIR)/nucleus.o $(OBJECTDIR)/dedx.o $(OBJECTDIR)/PTrack.o $(OBJECTDIR)/IRISHit.o $(OBJECTDIR)/YYHit.o $(OBJECTDIR)/IPhys.o $(OBJECTDIR)/CsIHit.o $(OBJECTDIR)/S3Hit.o $(OBJECTDIR)/IDet.o  $(OBJECTDIR)/IScaler.o $(OBJECTDIR)/eloss.o $(OBJECTDIR)/runDepPar.o $(OBJECTDIR)/CalibPHYSICS.o $(OBJECTDIR)/geometry.o $(OBJECTDIR)/IRISEventDict.o
+$(LIBDIR)/libIRISEvent.so: $(OBJECTDIR)/TEvent.o $(OBJECTDIR)/ITdc.o $(OBJECTDIR)/nucleus.o $(OBJECTDIR)/dedx.o $(OBJECTDIR)/PTrack.o $(OBJECTDIR)/IRISHit.o $(OBJECTDIR)/YYHit.o $(OBJECTDIR)/CsIHit.o $(OBJECTDIR)/S3Hit.o $(OBJECTDIR)/IDet.o  $(OBJECTDIR)/IScaler.o $(OBJECTDIR)/eloss.o $(OBJECTDIR)/runDepPar.o $(OBJECTDIR)/CalibPHYSICS.o $(OBJECTDIR)/geometry.o $(OBJECTDIR)/IRISEventDict.o
 	$(LD) $(SOFLAGS) $(LDFLAGS) $(CATIMALIBDIR) $(ROOTGLIBS) $(CATIMALIBS) $^ -o $@
 	@echo "$@ done"
 
@@ -60,12 +60,6 @@ $(OBJECTDIR)/simIris.o: $(SOURCEDIR)/mainSim.cxx
 
 $(OBJECTDIR)/physIris.o: $(SOURCEDIR)/mainPhys.cxx
 	$(CXX) $(CXXFLAGS) -c $< -o $@ 
-
-$(OBJECTDIR)/reacParams.o: $(SOURCEDIR)/reacParams.cxx
-	$(CXX) $(CXXFLAGS) -c $< -o $@
-
-$(OBJECTDIR)/geoParams.o: $(SOURCEDIR)/geoParams.cxx
-	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 $(OBJECTDIR)/nucleus.o: $(SOURCEDIR)/nucleus.cxx
 	$(CXX) $(CXXFLAGS) -c $< -o $@
@@ -86,9 +80,6 @@ $(OBJECTDIR)/IRISHit.o: $(SOURCEDIR)/IRISHit.cxx
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 $(OBJECTDIR)/YYHit.o: $(SOURCEDIR)/YYHit.cxx
-	$(CXX) $(CXXFLAGS) -c $< -o $@
-
-$(OBJECTDIR)/IPhys.o: $(SOURCEDIR)/IPhys.cxx
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 $(OBJECTDIR)/CsIHit.o: $(SOURCEDIR)/CsIHit.cxx
@@ -133,7 +124,7 @@ $(OBJECTDIR)/TEvent.o: $(SOURCEDIR)/TEvent.cxx
 $(OBJECTDIR)/IRISEventDict.o: $(LIBDIR)/IRISEventDict.cxx
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-$(LIBDIR)/IRISEventDict.cxx: $(INCLUDEDIR)/TEvent.h $(INCLUDEDIR)/PTrack.h $(INCLUDEDIR)/IRISHit.h $(INCLUDEDIR)/YYHit.h $(INCLUDEDIR)/IPhys.h $(INCLUDEDIR)/CsIHit.h $(INCLUDEDIR)/S3Hit.h $(INCLUDEDIR)/IDet.h $(INCLUDEDIR)/ITdc.h $(INCLUDEDIR)/IScaler.h $(INCLUDEDIR)/IRISEventLinkDef.h
+$(LIBDIR)/IRISEventDict.cxx: $(INCLUDEDIR)/TEvent.h $(INCLUDEDIR)/PTrack.h $(INCLUDEDIR)/IRISHit.h $(INCLUDEDIR)/YYHit.h $(INCLUDEDIR)/CsIHit.h $(INCLUDEDIR)/S3Hit.h $(INCLUDEDIR)/IDet.h $(INCLUDEDIR)/ITdc.h $(INCLUDEDIR)/IScaler.h $(INCLUDEDIR)/IRISEventLinkDef.h
 	@echo "Generating dictionary $@..."
 	@rootcint -f $@ -c $(HEADER) $(CATIMAINC) $(CATIMADEF) $^
 
