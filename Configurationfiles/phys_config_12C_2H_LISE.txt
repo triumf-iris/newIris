@@ -1,0 +1,7 @@
+RUNLIST=runlog_lastrun.txt
+GATEFILE=
+GATENAME=
+DEDX_X=/home/iris/curtis/NewIris/newIRIS/Configurationfiles/LISE_dedx/
+RUNDEPPAR=/home/iris/curtis/NewIris/newIRIS/Configurationfiles/runDepPar_12C_2H.txt
+GEOMETRY=/home/iris/curtis/NewIris/newIRIS/Configurationfiles/geometry.txt
+USE_ICGATES!
