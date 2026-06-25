@@ -8,6 +8,24 @@ OBJECTDIR = $(BASEDIR)/obj
 BINARYDIR = $(BASEDIR)/bin
 HEADER = -I$(INCLUDEDIR) #-I$(TREEIRIS)/include
 
+USE_TREEIRIS ?= 1
+
+ROOTANA =
+IRISDIR = 
+IRISLIB =
+
+ifeq ($(USE_TREEIRIS), 1)
+# Path of ROOT analyzer
+ROOTANA = $(HOME)/packages/rootana
+
+#DPP tools for CAEN DT5740, added 2021-03-24
+IRISDIR = /home/iris/packages/iris-daqtools
+IRISLIB = $(IRISDIR)/build/libdaqtools_static.a
+CXXFLAGS += -I$(ROOTANA) -I$(ROOTANA)/include
+CXXFLAGS += -I$(IRISDIR)/include
+CXXFLAGS += -Df2cFortran
+endif
+
 USE_CATIMA ?= 0
 
 CATIMAPATH ?= /home/iris/curtis/NewIris/catima/install
@@ -26,7 +44,7 @@ endif
 CXX = g++
 LD = g++
 ifdef ROOTSYS
-ROOTGLIBS = $(shell $(ROOTSYS)/bin/root-config --glibs) -lThread -Wl,-rpath,$(ROOTSYS)/lib
+ROOTGLIBS = $(shell $(ROOTSYS)/bin/root-config --glibs) -lXMLParser -lThread -Wl,-rpath,$(ROOTSYS)/lib
 CXXFLAGS += -g -O -Wall -Wuninitialized -I./ -I$(ROOTSYS)/include
 ROOTCFLAGS    = $(shell root-config --cflags)
 CXXFLAGS += $(HEADER)
@@ -42,13 +60,22 @@ LDFLAGS = -O2
 #SOFLAGS       = -g -dynamiclib -shared
 #LDFLAGS       = -O2 -undefined dynamic_lookup
 
-all:  $(BINARYDIR)/simIris $(BINARYDIR)/physIris
+TARGETS = $(BINARYDIR)/simIris $(BINARYDIR)/physIris 
+
+ifeq ($(USE_TREEIRIS), 1)
+TARGETS += $(BINARYDIR)/treeIris
+endif
+
+all: $(TARGETS)
 
 $(BINARYDIR)/simIris: $(OBJECTDIR)/simIris.o $(OBJECTDIR)/HandleSIMULATE.o $(OBJECTDIR)/dwba.o $(OBJECTDIR)/shieldClear.o $(LIBDIR)/libIRISEvent.so
 	$(CXX) -o $@ $(CXXFLAGS) $^ $(CATIMALIBDIR) $(ROOTGLIBS) $(CATIMALIBS) -lm -lz -lutil -lpthread -lrt
 
 $(BINARYDIR)/physIris: $(OBJECTDIR)/physIris.o $(OBJECTDIR)/HandlePHYSICS.o $(OBJECTDIR)/Graphsdedx.o $(LIBDIR)/libIRISEvent.so
 	$(CXX) -o $@ $(CXXFLAGS) $^ $(CATIMALIBDIR) $(ROOTGLIBS) $(CATIMALIBS) -lm -lz -lutil -lpthread -lrt
+
+$(BINARYDIR)/treeIris: $(OBJECTDIR)/HandleMesytec.o $(OBJECTDIR)/HandleV1190.o $(OBJECTDIR)/HandleSTAT.o $(OBJECTDIR)/HandleScaler.o  $(OBJECTDIR)/CalibMesytec.o $(OBJECTDIR)/HandleV1740.o $(OBJECTDIR)/treeIris.o $(LIBDIR)/libIRISEvent.so $(ROOTANA)/lib/librootana.a $(IRISLIB)
+	$(CXX) -o $@ $(CXXFLAGS) $^ $(CATIMALIBDIR) $(ROOTGLIBS) $(CATIMALIBS) $(IRISLIB) -lm -lz -lutil -lpthread -lrt 
 
 #remove -lnsl and -lrt for macOS
 $(LIBDIR)/libIRISEvent.so: $(OBJECTDIR)/TEvent.o $(OBJECTDIR)/ITdc.o $(OBJECTDIR)/nucleus.o $(OBJECTDIR)/dedx.o $(OBJECTDIR)/PTrack.o $(OBJECTDIR)/IRISHit.o $(OBJECTDIR)/YYHit.o $(OBJECTDIR)/CsIHit.o $(OBJECTDIR)/S3Hit.o $(OBJECTDIR)/IDet.o  $(OBJECTDIR)/IScaler.o $(OBJECTDIR)/eloss.o $(OBJECTDIR)/runDepPar.o $(OBJECTDIR)/CalibPHYSICS.o $(OBJECTDIR)/geometry.o $(OBJECTDIR)/IRISEventDict.o
@@ -59,6 +86,9 @@ $(OBJECTDIR)/simIris.o: $(SOURCEDIR)/mainSim.cxx
 	$(CXX) $(CXXFLAGS) -c $< -o $@ 
 
 $(OBJECTDIR)/physIris.o: $(SOURCEDIR)/mainPhys.cxx
+	$(CXX) $(CXXFLAGS) -c $< -o $@ 
+
+$(OBJECTDIR)/treeIris.o: $(SOURCEDIR)/mainTree.cxx 
 	$(CXX) $(CXXFLAGS) -c $< -o $@ 
 
 $(OBJECTDIR)/nucleus.o: $(SOURCEDIR)/nucleus.cxx
@@ -121,6 +151,24 @@ $(OBJECTDIR)/IScaler.o: $(SOURCEDIR)/IScaler.cxx
 $(OBJECTDIR)/TEvent.o: $(SOURCEDIR)/TEvent.cxx
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
+$(OBJECTDIR)/HandleMesytec.o: $(SOURCEDIR)/HandleMesytec.cxx 
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+$(OBJECTDIR)/HandleV1190.o: $(SOURCEDIR)/HandleV1190.cxx 
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+$(OBJECTDIR)/HandleV1740.o: $(SOURCEDIR)/HandleV1740.cxx 
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+$(OBJECTDIR)/HandleSTAT.o: $(SOURCEDIR)/HandleSTAT.cxx 
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+$(OBJECTDIR)/HandleScaler.o: $(SOURCEDIR)/HandleScaler.cxx 
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+$(OBJECTDIR)/CalibMesytec.o: $(SOURCEDIR)/CalibMesytec.cxx 
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
 $(OBJECTDIR)/IRISEventDict.o: $(LIBDIR)/IRISEventDict.cxx
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
@@ -132,6 +180,7 @@ clean::
 	rm -f $(OBJECTDIR)/*.o
 	rm -f $(BINARYDIR)/simIris
 	rm -f $(BINARYDIR)/physIris
+	rm -f $(INSTALLDIR)/bin/treeIris
 	rm -f $(LIBDIR)/*Dict.cxx
 	rm -f $(LIBDIR)/*Dict.h
 	rm -f $(LIBDIR)/*.pcm

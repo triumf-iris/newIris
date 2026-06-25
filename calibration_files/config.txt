@@ -1,0 +1,15 @@
+PATH=calibration_files/
+GEOMETRY=geometry.txt
+SD1R=Sd1r.txt
+SD1S=Sd1s.txt
+SD2R=Sd2r.txt
+SD2S=Sd2s.txt
+SUR=Sur.txt
+SUS=Sus.txt
+CSI1=CsI1.txt
+CSI2=CsI2.txt
+YD=Yd.txt
+YU=Yu.txt
+//TCORR_IC=
+//TCORR_SI= 
+ 
