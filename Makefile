@@ -180,7 +180,7 @@ clean::
 	rm -f $(OBJECTDIR)/*.o
 	rm -f $(BINARYDIR)/simIris
 	rm -f $(BINARYDIR)/physIris
-	rm -f $(INSTALLDIR)/bin/treeIris
+	rm -f $(BINARYDIR)/treeIris
 	rm -f $(LIBDIR)/*Dict.cxx
 	rm -f $(LIBDIR)/*Dict.h
 	rm -f $(LIBDIR)/*.pcm
