@@ -30,6 +30,7 @@ public:
 	std::string fileRunDepPar;
 	std::string fileGeometry;
 	std::string fileTCorrIC;
+	std::string fileCalib;
 	int numGate;
 
 	bool boolRunList;
@@ -53,6 +54,7 @@ public:
 	bool boolGeometry;
 	bool boolEssential;
 	bool boolTCorrIC;
+	bool boolCalib;
 
 	// virtual void ReadCalibPar(char* line);
 	void ReadFilenames(char *line);

@@ -166,6 +166,11 @@ void CalibPHYSICS::ReadFilenames(char *line)
 		fileTCorrIC += strval;
 		boolTCorrIC = true;
 	}
+	if (strcmp(line, "CALIB") == 0)
+	{
+		fileCalib += strval;
+		boolCalib = true;
+	}
 }
 
 void CalibPHYSICS::Load(std::string filename)

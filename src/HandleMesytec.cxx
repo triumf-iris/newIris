@@ -18,6 +18,7 @@
 #include <TVector3.h>
 
 #include "HandleMesytec.h"
+#include "CalibPHYSICS.h"
 #include "CalibMesytec.h"
 #include "geometry.h"
 #include "Globals.h"
@@ -28,6 +29,7 @@ extern TFile *treeFile;
 extern TTree *tree;
 
 CalibMesytec calMesy;
+CalibPHYSICS calPhys;
 
 geometry geoM;
 
@@ -1368,14 +1370,20 @@ void HandleMesytec(TMidasEvent &event, void *ptr, int nitems, int bank, IDet *pd
 }
 
 //---------------------------------------------------------------------------------
-void HandleBOR_Mesytec(int run, int gFileNumber, int time, IDet *pdet, std::string CalibFile)
+void HandleBOR_Mesytec(int run, int gFileNumber, int time, IDet *pdet, std::string ConfigFile)
 {
+	if (ConfigFile == "")
+		printf("No configuration file specified!\n\n");
+	calPhys.Load(ConfigFile);
+	calPhys.Print();
+
+	std::string CalibFile = calPhys.fileCalib; 
 	if (CalibFile == "")
 		printf("No calibration file specified!\n\n");
 	calMesy.Load(CalibFile);
 	calMesy.Print();
 
-	geoM.ReadGeometry(calMesy.fileGeometry.data());
+	geoM.ReadGeometry(calPhys.fileGeometry.data());
 	// ************************************************************************************
 
 	treeFile->cd();
