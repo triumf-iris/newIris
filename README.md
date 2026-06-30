@@ -23,6 +23,12 @@ simIris supports using [catima](https://github.com/hrosiak/catima) for generatin
 
 	make USE_CATIMA=1 CATIMAPATH=[path to catima]
 
+### Installing with treeIris ###
+
+treeIris has extra dependencies required to build which exist on iris0,01,02. Since many personal builds do not require treeIRIS, to avoid needing the dependencies, treeIRIS is an optional build. If needing treeIRIS, compile using the following flags
+
+	make USE_TREEIRIS=1
+
 ## Testing simulation and analysis ##
 The testMacros/testSimulation folder has an example runSim.sh and runPhys.sh for simulating and analyzing a 12C + D experiment. Configuration files for this test experiment are in the Configurationfiles folder.
 
@@ -50,12 +56,19 @@ From the main newIris folder, you can run simIris with
 
 A configuration file must be provided. See Config Files section below for more information.
 
+## Running treeIris ##
+
+From the main newIris folder, you can run treeIris with
+ 
+	./bin/treeIris /path/to/your/input-file -c=/path/to/your/config.file -o=/path/to/to/your/output.file 
+
+A configuration file must be provided. See Config Files section below for more information.
 
 ## The Configuration Files ##
 
-The newIris codes, simIris and physIris, both use a common set of configuration files.
+The newIris codes, simIris, physIris, and treeIris, all use a common set of configuration files.
 
-A master configuration file, a geometry file, and a run dependent parameters file. Each is detailed below.
+A master configuration file, a geometry file, a run dependent parameters file, and a list of calibration files. Each is detailed below.
 
 ### The Master Configuration File ###
 
@@ -74,6 +87,12 @@ The geometry file contains a set of parameters describing the experimental setup
 The reaction parameter file contains information about the reaction for the given runs. See the example for more information
 
 	Configurationfiles/runDepPar_12C_2H.txt
+
+### Calibration File List###
+
+The calibration file list contains the location for the calibration files for the detectors.
+
+	Configurationfiles/calibration.txt
 
 ## Energy loss tables##
 
