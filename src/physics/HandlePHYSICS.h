@@ -6,7 +6,6 @@
 #include "IDet.h"
 #include "ITdc.h"
 #include "IScaler.h"
-#include "PTrack.h"
 #include <string>
 
 TChain *createChain(std::vector<Int_t>, std::string);

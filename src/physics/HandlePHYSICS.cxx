@@ -17,7 +17,8 @@
 #include "nucleus.h"
 #include "runDepPar.h"
 #include "CalibPHYSICS.h"
-#include "Graphsdedx.h"
+//#include "Graphsdedx.h"
+//#include "PTrack.h"
 #include "geometry.h"
 #include "IrisMaterial.h"
 
@@ -30,17 +31,17 @@ TChain *input_chain;
 
 CalibPHYSICS calPhys;
 geometry geoP;
-Graphsdedx dedx_i, dedx_l, dedx_h;
+//Graphsdedx dedx_i, dedx_l, dedx_h;
 IDet detec; // calibrated variables from detectors, to be passed to HandlePhysics
 IDet *det = &detec;
 ITdc timeArray;
 ITdc *tdc = &timeArray;
 IScaler scal;
 IScaler *pscaler = &scal;
-PTrack lP;
-PTrack *plP = &lP;
-PTrack hP;
-PTrack *phP = &hP;
+//PTrack lP;
+//PTrack *plP = &lP;
+//PTrack hP;
+//PTrack *phP = &hP;
 
 Int_t Run, Event;
 Int_t prevRun = 0;
@@ -325,14 +326,14 @@ void HandleBOR_PHYSICS(std::string BinPath, std::string Directory, std::string C
 	{
 		input_chain->SetBranchAddress("scaler", &pscaler);
 	}
-	if (input_chain->GetListOfBranches()->FindObject("lP"))
-	{
-		input_chain->SetBranchAddress("lP", &plP);
-	}
-	if (input_chain->GetListOfBranches()->FindObject("hP"))
-	{
-		input_chain->SetBranchAddress("hP", &phP);
-	}
+	//if (input_chain->GetListOfBranches()->FindObject("lP"))
+	//{
+	//	input_chain->SetBranchAddress("lP", &plP);
+	//}
+	//if (input_chain->GetListOfBranches()->FindObject("hP"))
+	//{
+	//	input_chain->SetBranchAddress("hP", &phP);
+	//}
 	if (input_chain->GetListOfBranches()->FindObject("Run"))
 	{
 		input_chain->SetBranchAddress("Run", &Run);

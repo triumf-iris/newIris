@@ -12,15 +12,12 @@
 #include "TGenPhaseSpace.h"
 #include "TStopwatch.h"
 #include "YYHit.h"
-// #include "IPhys.h"
 #include "CsIHit.h"
 #include "IDet.h"
 #include "PTrack.h"
 #include "S3Hit.h"
-// #include "physHits.h"
 #include "header.h"
 #include "detHits.h"
-// #include "IPhys.h"
 #include "eloss.h"
 #include "IrisMaterial.h"
 #include "CalibPHYSICS.h"
@@ -376,7 +373,7 @@ void HandleBOR_SIMULATE(std::string BinPath, std::string CalibFile, std::string 
 #ifndef USE_CATIMA
 			std::cout << "ERROR: dedx tables not supplied!" << std::endl;
 			file->Close();
-			return 1;
+			return;
 #endif
 			std::cout << "Using dedx tables from catima" << std::endl;
 			A.EL.makeCatimaTables(A.A, A.Z, geoP.MFoil, geoP.MTgt, A.mass);
