@@ -1,4 +1,4 @@
-EBAC=120		//20Mg Accel energy
+EBAC=87.6	//20Mg Accel energy
 N=2		//no. of outgoing products
 A=12C
 a=2H

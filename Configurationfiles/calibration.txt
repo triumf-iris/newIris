@@ -1,4 +1,4 @@
-PATH=calibration_files/
+PATH=/home/iris/curtis/NewIris/newIRIS/Configurationfiles/calibration_files/
 SD1R=Sd1r.txt
 SD1S=Sd1s.txt
 SD2R=Sd2r.txt
