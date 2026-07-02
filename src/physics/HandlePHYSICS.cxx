@@ -659,7 +659,7 @@ void HandlePHYSICS()
 				cosTheta = cos(sd1theta);
 				// Sd2 ring side
 				energy = 0;
-				if (det->TSd1rMul == det->TSd2rMul && det->TSd2rMul == det->TSd2sMul && det->TSd2rEnergy.at(z) > 0. && det->TSd2sEnergy.at(z) > 0)
+				if (det->TSd2rEnergy.at(z) > 0.)
 				{
 					energy = det->TSd2rEnergy.at(z);
 					energy = energy + elossFi(lej, energy, 0.1 * 1.822 * 0.5 / cosTheta, IrisMaterial::P); // phosphorus implant
@@ -830,7 +830,7 @@ void HandlePHYSICS()
 				cosTheta = cos(sd1theta);
 				// Sd2 ring side
 				energy = 0;
-				if (det->TSd1rMul == det->TSd2rMul && det->TSd2rMul == det->TSd2sMul && det->TSd2rEnergy.at(z) > 0. && det->TSd2sEnergy.at(z) > 0.)
+				if (det->TSd2rEnergy.at(z) > 0.)
 				{
 					energy = det->TSd2rEnergy.at(z);
 					energy = energy + elossFi(hej, energy, 0.1 * 1.822 * 0.5 / cosTheta, IrisMaterial::P); // phosphorus implant
