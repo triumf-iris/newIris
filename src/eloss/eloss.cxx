@@ -108,3 +108,35 @@ double elossFi(double efi, double th, std::array<double, 100> x, std::array<doub
 	}
 	return en - efi;
 }
+
+double thickness(nucleus P, double ein, double efi, IrisMaterial material)
+{
+	return thickness(ein, efi, P.EL.GetE(material), P.EL.GetDeDx(material));
+}
+
+double thickness(double ein, double efi, std::array<double, 100> x, std::array<double, 100> y) // initial energy and final energy are given as arguments, calculates target thickness
+{
+
+	// for (Int_t )
+	if (ein <= efi)
+		return 0.0;
+	// Energy loss calculation
+	Double_t dx = 0;
+	Double_t de = (ein - efi) / 1000.; // energy loss step in MeV
+	//  Double_t de = 0.01; //energy loss step in MeV
+	Double_t en = ein; // the energy variable
+	Double_t th = 0.;  // the thickness variable
+
+	// Integrate numerically
+
+	while (en > efi)
+	{
+		dx = de / eval(en, x, y) / 2.; //
+		th = th + dx;
+		en = en - de;
+
+		dx = de / eval(en, x, y) / 2.; //
+		th = th + dx;
+	}
+	return th;
+}
