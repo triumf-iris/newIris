@@ -87,19 +87,19 @@ $(BINARYDIR)/treeIris: $(OBJECTDIR)/HandleMesytec.o $(OBJECTDIR)/HandleV1190.o $
 
 #remove -lnsl and -lrt for macOS
 $(LIBDIR)/libIRISCore.so: $(OBJECTDIR)/IDet.o $(OBJECTDIR)/TEvent.o $(OBJECTDIR)/ITdc.o $(OBJECTDIR)/IScaler.o $(OBJECTDIR)/IRISCoreDict.o
-	$(LD) $(SOFLAGS) $(LDFLAGS) $(ROOTGLIBS) $^ -o $@
+	$(LD) $(SOFLAGS) $(LDFLAGS) $^ $(ROOTGLIBS) -o $@
 	@echo "$@ done"
 
 $(LIBDIR)/libIRISConfig.so: $(OBJECTDIR)/CalibPHYSICS.o $(OBJECTDIR)/CalibMesytec.o $(OBJECTDIR)/geometry.o $(OBJECTDIR)/runDepPar.o
-	$(LD) $(SOFLAGS) $(LDFLAGS) $(ROOTGLIBS) $^ -o $@
+	$(LD) $(SOFLAGS) $(LDFLAGS) $^ $(ROOTGLIBS) -o $@
 	@echo "$@ done"
 
 $(LIBDIR)/libIRISSim.so: $(OBJECTDIR)/PTrack.o $(OBJECTDIR)/IRISHit.o $(OBJECTDIR)/YYHit.o $(OBJECTDIR)/CsIHit.o $(OBJECTDIR)/S3Hit.o $(OBJECTDIR)/IRISSimDict.o $(LIBDIR)/libIRISELoss.so
-	$(LD) $(SOFLAGS) $(LDFLAGS) $(CATIMALIBDIR) $(ROOTGLIBS) $(CATIMALIBS) $^ -o $@
+	$(LD) $(SOFLAGS) $(LDFLAGS) $^ $(CATIMALIBDIR) $(ROOTGLIBS) $(CATIMALIBS) -o $@
 	@echo "$@ done"
 
 $(LIBDIR)/libIRISELoss.so: $(OBJECTDIR)/nucleus.o $(OBJECTDIR)/dedx.o $(OBJECTDIR)/eloss.o
-	$(LD) $(SOFLAGS) $(LDFLAGS) $(CATIMALIBDIR) $(ROOTGLIBS) $(CATIMALIBS) $^ -o $@
+	$(LD) $(SOFLAGS) $(LDFLAGS) $^ $(CATIMALIBDIR) $(ROOTGLIBS) $(CATIMALIBS) -o $@
 	@echo "$@ done"
 
 $(OBJECTDIR)/simIris.o: $(SIMDIR)/mainSim.cxx

@@ -307,4 +307,47 @@ void CalibPHYSICS::Print()
 
 void CalibPHYSICS::Clear()
 {
+
+	installPath = "";
+	fileRunList = "";
+	fileGate = "";
+	nameGate = "";
+	fileSdGate = "";
+	nameSdGate = "";
+	fileYuGate = "";
+	nameYuGate = "";
+	fileSuGate = "";
+	nameSuGate = "";
+	fileELoss = "";
+	fileIdedx = "";
+	fileLdedx = "";
+	fileHdedx = "";
+	filededx = "";
+	fileRunDepPar = "";
+	fileGeometry = "";
+	fileTCorrIC = "";
+	fileCalib = "";
+
+	boolRunList = false;
+	boolICGates = false;
+	boolIC = false;
+	boolFGate = false;
+	boolNGate = false;
+	boolNumGate = false;
+	boolFSdGate = false;
+	boolNSdGate = false;
+	boolFYuGate = false;
+	boolNYuGate = false;
+	boolFSuGate = false;
+	boolNSuGate = false;
+	boolELoss = false;
+	boolIdedx = false;
+	boolLdedx = false;
+	boolHdedx = false;
+	booldedx = false;
+	boolRunDepPar = false;
+	boolGeometry = false;
+	boolEssential = false;
+	boolTCorrIC = false;
+	boolCalib = false;
 }
