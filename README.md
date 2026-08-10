@@ -29,6 +29,10 @@ treeIris has extra dependencies required to build which exist on iris0,01,02. Si
 
 	make USE_TREEIRIS=1
 
+### Setting newIris environment ###
+
+When making newIris, setup scripts are created for bash and tcsh in the main folder. Simply source the correct script to add the include directories and libraries to the environment paths.
+
 ## Testing simulation and analysis ##
 The testMacros/testSimulation folder has an example runSim.sh and runPhys.sh for simulating and analyzing a 12C + D experiment. Configuration files for this test experiment are in the Configurationfiles folder.
 

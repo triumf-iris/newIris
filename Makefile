@@ -65,13 +65,16 @@ LDFLAGS = -O2
 #SOFLAGS       = -g -dynamiclib -shared
 #LDFLAGS       = -O2 -undefined dynamic_lookup
 
+SETUPTCSH = $(BASEDIR)/setupIRIStcsh.sh
+SETUPBASH = $(BASEDIR)/setupIRISbash.sh
+
 TARGETS = $(BINARYDIR)/simIris $(BINARYDIR)/physIris 
 
 ifeq ($(USE_TREEIRIS), 1)
 TARGETS += $(BINARYDIR)/treeIris
 endif
 
-all: $(TARGETS)
+all: $(TARGETS) $(SETUPTCSH) $(SETUPBASH)
 
 $(BINARYDIR)/simIris: $(OBJECTDIR)/simIris.o $(OBJECTDIR)/HandleSIMULATE.o $(OBJECTDIR)/dwba.o $(OBJECTDIR)/shieldClear.o $(LIBDIR)/libIRISCore.so $(LIBDIR)/libIRISConfig.so $(LIBDIR)/libIRISSim.so $(LIBDIR)/libIRISELoss.so
 	$(CXX) -o $@ $(CXXFLAGS) $^ $(CATIMALIBDIR) $(ROOTGLIBS) $(CATIMALIBS) -lm -lz -lutil -lpthread -lrt
@@ -196,6 +199,31 @@ $(LIBDIR)/IRISCoreDict.cxx: $(COREDIR)/TEvent.h $(COREDIR)/IDet.h $(COREDIR)/ITd
 $(LIBDIR)/IRISSimDict.cxx: $(SIMDIR)/PTrack.h $(SIMDIR)/IRISHit.h $(SIMDIR)/YYHit.h $(SIMDIR)/CsIHit.h $(SIMDIR)/S3Hit.h $(SIMDIR)/IRISSimLinkDef.h
 	@echo "Generating dictionary $@..."
 	@rootcint -f $@ -c $(HEADER) $(CATIMAINC) $(CATIMADEF) $^
+
+$(SETUPTCSH): Makefile
+	@echo '#!/bin/tcsh' > $@
+	@echo '' >> $@
+	@echo 'setenv IRISROOT $(BASEDIR)' >> $@
+	@echo '' >> $@
+	@echo 'if ( $$?ROOT_INCLUDE_PATH ) then' >> $@
+	@echo '	setenv ROOT_INCLUDE_PATH $${ROOT_INCLUDE_PATH}:$(SOURCEDIR)/core:$(SOURCEDIR)/configuration:$(SOURCEDIR)/eloss:$(SOURCEDIR)/physics:$(SOURCEDIR)/simulation:$(SOURCEDIR)/tree' >> $@
+	@echo 'else' >> $@
+	@echo '	setenv ROOT_INCLUDE_PATH $(SOURCEDIR)/core:$(SOURCEDIR)/configuration:$(SOURCEDIR)/eloss:$(SOURCEDIR)/physics:$(SOURCEDIR)/simulation:$(SOURCEDIR)/tree' >> $@
+	@echo 'endif' >> $@
+	@echo '' >> $@
+	@echo 'setenv LD_LIBRARY_PATH $${LD_LIBRARY_PATH}:$(LIBDIR)' >>$@
+	@chmod +x $@
+	@echo 'Generated $@'
+
+$(SETUPBASH): Makefile
+	@echo '#!/bin/bash' > $@
+	@echo '' >> $@
+	@echo 'export IRISROOT=$(BASEDIR)' >> $@
+	@echo '' >> $@
+	@echo 'export ROOT_INCLUDE_PATH=$${ROOT_INCLUDE_PATH}:$(SOURCEDIR)/core:$(SOURCEDIR)/configuration:$(SOURCEDIR)/eloss:$(SOURCEDIR)/physics:$(SOURCEDIR)/simulation:$(SOURCEDIR)/tree' >> $@
+	@echo 'export LD_LIBRARY_PATH=$${LD_LIBRARY_PATH}:$(LIBDIR)' >>$@
+	@chmod +x $@
+	@echo 'Generated $@'
 
 clean::
 	rm -f $(OBJECTDIR)/*.o
