@@ -66,6 +66,10 @@ From the main newIris folder, you can run treeIris with
  
 	./bin/treeIris /path/to/your/input-file -c=/path/to/your/config.file -o=/path/to/to/your/output.file 
 
+or
+
+	./bin/treeIris -c=/path/to/your/config.file --path=/path/to/data/directory --run=run_number
+
 A configuration file must be provided. See Config Files section below for more information.
 
 ## The Configuration Files ##
