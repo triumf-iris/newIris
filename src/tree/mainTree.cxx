@@ -292,7 +292,7 @@ int ProcessMidasFile(const char *fname)
 int ProcessFiles()
 {
 	gFileNumber = -1;
-	gOutputFile = TString::Format("run%06d.root", gRunNum).Data();
+	gOutputFile += TString::Format("run%06d.root", gRunNum).Data();
 	TString inputFormat = TString::Format("%s/iris_%08d%%04d.mid.gz", gPath.c_str(), gRunNum); 
 	std::filesystem::path filename;
 	//std::cout << inputFormat << std::endl;
