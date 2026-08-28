@@ -217,7 +217,7 @@ void HandleBOR_V1740(int file)
 		{
 			char name[32];
 			sprintf(name, "TWfdTrace%02d", 2 * i);
-			tree->SetBranchAddress(name, &(traces.at(i)));
+			tree->GetBranch(name)->SetAddress(&(traces.at(i)));
 			// tree->SetBranchAddress("TWfdADC",&amplitudes);
 			// tree->SetBranchAddress("TWfdTDC",&times);
 		}

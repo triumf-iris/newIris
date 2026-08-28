@@ -51,11 +51,12 @@ public:
 	bool boolTCorrIC;
 	bool boolTCorrSi;
 
+	bool isLoaded = false;
+
 	virtual void ReadFilenames(char *line);
 	virtual void Load(std::string filename);
 	virtual void Print();
 	virtual void Clear();
-	//		ClassDef(CalibMesytec,1)
 };
 
 #endif

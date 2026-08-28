@@ -37,6 +37,8 @@ public:
 	double Bs;
 	double ICPressure;
 
+	bool isLoaded = false;
+
 	void ReadGeometry(std::string);
 	void Print();
 };
