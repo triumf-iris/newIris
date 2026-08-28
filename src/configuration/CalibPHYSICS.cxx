@@ -227,6 +227,7 @@ void CalibPHYSICS::Load(std::string filename)
 		file = NULL;
 	}
 	boolEssential = (boolRunList && boolGeometry && boolRunDepPar && boolIdedx && boolLdedx && boolHdedx);
+	isLoaded = true;
 }
 
 void CalibPHYSICS::Print()

@@ -55,6 +55,7 @@ public:
 	bool boolEssential;
 	bool boolTCorrIC;
 	bool boolCalib;
+	bool isLoaded = false;
 
 	// virtual void ReadCalibPar(char* line);
 	void ReadFilenames(char *line);

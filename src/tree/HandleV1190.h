@@ -21,7 +21,7 @@ public:
 };
 
 void HandleV1190(TMidasEvent &event, void *ptr, int nitems, int bank, ITdc *ptdc);
-void HandleBOR_V1190(int run, int file, std::string configFile, ITdc *timeArray);
+void HandleBOR_V1190(int run, int file, std::string configFile, ITdc *&ptdc);
 void HandleEOR_V1190(int run, int time);
 
 #endif

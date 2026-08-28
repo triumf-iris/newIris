@@ -37,6 +37,8 @@ public:
 	double W2;	  // Resonance width
 	double SHAPE; // Resonance shape 0=Breit-Wigner, 1=Gaussian, 2=Square
 
+	bool isLoaded = false;
+
 	void setRunDepPar(std::string);
 	void Print();
 };

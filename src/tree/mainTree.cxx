@@ -11,6 +11,7 @@
 #include <signal.h>
 #include <string>
 #include <fstream>
+#include <filesystem>
 
 #include "TMidasEvent.h"
 // #include "TMidasFile.h"
@@ -21,6 +22,7 @@
 #include <TTimer.h>
 #include <TFile.h>
 #include <TTree.h>
+#include <TString.h>
 #include "Globals.h"
 
 #include "HandleMesytec.h"
@@ -34,7 +36,8 @@
 #include "ITdc.h"
 
 // Global Variables
-int gRunNumber = 0;
+int gRunNumber = 0; // Run Number from midas file
+int gRunNum = -1; // Optional run number parameter from args
 int gEventNumber = 0;
 int gFileNumber = 0;
 bool gIsPedestalsRun = false;
@@ -46,6 +49,8 @@ bool gRandomise = false; // Randomise ADC values within the channel when calibra
 std::string gOutputFile = "";
 std::string gCalibFile = ""; // File with energy calibrations.
 std::string gTimeFile = "";	 // File with time calibrations.
+std::string gPath = ""; // Path to midas files
+
 
 char mesbkname[][5] = {"ICA_", "SD2A", "SD1A", "YDA_", "SUA_", "YUA_"};
 char tdcbkname[][5] = {"ICT_", "SD2T", "SD1T", "YDT_", "SUT_", "YUT_"};
@@ -284,6 +289,22 @@ int ProcessMidasFile(const char *fname)
 	return 0;
 }
 
+int ProcessFiles()
+{
+	gFileNumber = -1;
+	gOutputFile = TString::Format("run%06d.root", gRunNum).Data();
+	TString inputFormat = TString::Format("%s/iris_%08d%%04d.mid.gz", gPath.c_str(), gRunNum); 
+	std::filesystem::path filename;
+	//std::cout << inputFormat << std::endl;
+	while(std::filesystem::exists(filename = TString::Format(inputFormat, ++gFileNumber).Data()))
+	{
+		std::cout << "Processing " << filename.string() << std::endl;
+		ProcessMidasFile(filename.c_str());
+	}
+	//std::cout << filename << std::endl;
+	return 0;
+}
+
 void help()
 {
 	printf("\nUsage:\n");
@@ -293,6 +314,8 @@ void help()
 	printf("\t-o/-o=/--output=: Path of output file.\n");
 	printf("\t-c/-c=/--config=: Path of main configuration file.\n");
 	printf("\t-e: Number of events to read from input data files\n");
+	printf("\t--path=: Path to the midas files. Used with --run.\n");
+	printf("\t--run=: Run number to process. Used with --path.\n");
 	printf("\t-tdc[=ARG]: Write TDC data to root file. The optional [ARG] is\n");
 	printf("\t\tthe path to a file containing the time calibrations.\n");
 	printf("\t-raw: Write raw ADC data to root file.\n");
@@ -356,6 +379,10 @@ int main(int argc, char *argv[])
 		{ // Calibration file
 			gCalibFile = arg + 9;
 		}
+		else if (strncmp(arg, "--path=", 7) == 0)
+			gPath = arg + 7;
+		else if (strncmp(arg, "--run=", 6) == 0)
+			gRunNum = std::stoi(arg + 6);
 		else if (strncmp(arg, "-tdc", 4) == 0)
 		{
 			// printf("argument = %s\n",arg);
@@ -378,12 +405,14 @@ int main(int argc, char *argv[])
 			help(); // does not return
 	}
 
+	bool have_input = false;
 	for (unsigned int i = 1; i < args.size(); i++)
 	{
 		const char *arg = args[i].c_str();
 
 		if (arg[0] != '-')
 		{
+			have_input = true;
 			if (have_output == true)
 			{
 				ProcessMidasFile(arg);
@@ -393,6 +422,25 @@ int main(int argc, char *argv[])
 				printf("No output file specified!\n");
 				printf("Use -o=/path/to/your/output-file!\n");
 			}
+		}
+	}
+	if(!have_input)
+	{
+		if(gRunNum > -1)
+		{
+			if(gPath == "")
+			{
+				printf("No file path specified!\n");
+				printf("Use --path=/path/to/your/data/!\n");
+			}
+			else 
+			{
+				ProcessFiles();
+			}
+		}
+		else
+		{
+			printf("No input file supplied!\n");
 		}
 	}
 

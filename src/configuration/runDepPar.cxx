@@ -103,6 +103,7 @@ void runDep::setRunDepPar(std::string filename)
 			SHAPE = v;
 	}
 	fclose(parFile);
+	isLoaded = true;
 }
 
 void runDep::Print()

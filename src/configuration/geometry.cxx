@@ -157,6 +157,7 @@ void geometry::ReadGeometry(std::string filename)
 		}
 		fclose(parFile);
 	}
+	isLoaded = true;
 }
 
 void geometry::Print()

@@ -221,6 +221,7 @@ void CalibMesytec::Load(std::string filename)
 		fclose(file);
 		file = NULL;
 	}
+	isLoaded = true;
 }
 
 void CalibMesytec::Print()

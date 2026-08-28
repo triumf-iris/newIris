@@ -519,13 +519,13 @@ void HandleV1190(TMidasEvent &event, void *ptr, int nitems, int bank, ITdc *ptdc
 }
 
 //---------------------------------------------------------------------------------
-void HandleBOR_V1190(int run, int file, string configFile, ITdc *ptdc)
+void HandleBOR_V1190(int run, int file, string configFile, ITdc *&ptdc)
 {
 	printf("\nHandleBOR_V1190...\n\n");
 	if (file == 0)
-		tree->Branch("tdc", "ITdc", ptdc, 32000, 99);
+		tree->Branch("tdc", "ITdc", &ptdc, 32000, 99);
 	else
-		tree->SetBranchAddress("tdc", &ptdc);
+		tree->GetBranch("tdc")->SetAddress(&ptdc);
 
 	if (configFile != "")
 		calibrations = ParseConfigurationFile(configFile);

@@ -178,6 +178,8 @@ Double_t xpos, ypos, radius = 0.; // dummy variables for positions
 uint32_t modid, oformat, vpeak, resolution, evlength, timestamp;
 uint32_t channel, overflow, ch;
 
+bool isMesyCalib = false;
+
 int clearDetectors()
 {
 	for (int j = 0; j < NICChannels; j++)
@@ -1370,20 +1372,27 @@ void HandleMesytec(TMidasEvent &event, void *ptr, int nitems, int bank, IDet *pd
 }
 
 //---------------------------------------------------------------------------------
-void HandleBOR_Mesytec(int run, int gFileNumber, int time, IDet *pdet, std::string ConfigFile)
+void HandleBOR_Mesytec(int run, int gFileNumber, int time, IDet *&pdet, std::string ConfigFile)
 {
 	if (ConfigFile == "")
 		printf("No configuration file specified!\n\n");
-	calPhys.Load(ConfigFile);
-	calPhys.Print();
+	if (!calPhys.isLoaded)
+	{
+		calPhys.Load(ConfigFile);
+		calPhys.Print();
+	}
 
 	std::string CalibFile = calPhys.fileCalib; 
 	if (CalibFile == "")
 		printf("No calibration file specified!\n\n");
-	calMesy.Load(CalibFile);
-	calMesy.Print();
+	if (!calMesy.isLoaded)
+	{
+		calMesy.Load(CalibFile);
+		calMesy.Print();
+	}
 
-	geoM.ReadGeometry(calPhys.fileGeometry.data());
+	if (!geoM.isLoaded)
+		geoM.ReadGeometry(calPhys.fileGeometry.data());
 	// ************************************************************************************
 
 	treeFile->cd();
@@ -1391,13 +1400,22 @@ void HandleBOR_Mesytec(int run, int gFileNumber, int time, IDet *pdet, std::stri
 	if (gFileNumber == 0)
 	{
 		tree = new TTree("Iris", "iris data");
-		tree->Branch("det", "IDet", pdet, 32000, 99);
+		tree->Branch("det", "IDet", &pdet, 32000, 99);
 	}
 	else
 	{
 		tree = (TTree *)treeFile->Get("Iris");
-		tree->SetBranchAddress("det", &pdet);
+		tree->GetBranch("det")->SetAddress(&pdet);
 	}
+
+	if(!isMesyCalib)
+		Calibrate_Mesytec(run);
+
+	printf("Finished HandleBOR_Mesytec\n");
+	//************************************************************************
+
+}
+void Calibrate_Mesytec(int run) {
 
 	// Temporary variables for calibration
 	Int_t Chan = -1;
@@ -2174,8 +2192,7 @@ void HandleBOR_Mesytec(int run, int gFileNumber, int time, IDet *pdet, std::stri
 		}
 	}
 
-	printf("Finished HandleBOR_Mesytec\n");
-	//************************************************************************
+	isMesyCalib = true;
 }
 
 void HandleEOR_Mesytec(int run, int time)
