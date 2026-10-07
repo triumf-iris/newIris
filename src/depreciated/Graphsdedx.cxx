@@ -38,7 +38,7 @@ void Graphsdedx::ReadGraphnames(char *line)
 
 	val++;
 	if (*val == 0)
-		printf("Value missing for parameter %s", line);
+		printf("Value missing for parameter %s\n", line);
 
 	char cval[256];
 	std::string strval;

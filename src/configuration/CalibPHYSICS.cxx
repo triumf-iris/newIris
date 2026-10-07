@@ -43,7 +43,7 @@ void CalibPHYSICS::ReadFilenames(char *line)
 
 	val++;
 	if (*val == 0 && expect_val)
-		printf("Value missing for parameter %s", line);
+		printf("Value missing for parameter %s\n", line);
 
 	char cval[256];
 	std::string strval;

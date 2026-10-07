@@ -60,7 +60,7 @@ void geometry::ReadGeometry(std::string filename)
 
 			val++;
 			if (*val == 0)
-				printf("Value missing for parameter %s", buffer);
+				printf("Value missing for parameter %s\n", buffer);
 
 			// parse float parameter (if any)
 			double v;
