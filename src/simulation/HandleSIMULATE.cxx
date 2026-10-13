@@ -276,6 +276,11 @@ void HandleBOR_SIMULATE(std::string BinPath, std::string CalibFile, std::string 
 			S_low = B.S2p;
 			pick = 4;
 		}
+		if (B.Sa != 0. && B.Sa < S_low)
+		{
+			S_low = B.Sa;
+			pick = 5;
+		}
 		printf("\nResonance Energy: %.2lf\tlowest threshold: %.2lf\n", runDepPar.R1, S_low);
 
 		if (S_low < runDepPar.R1)
@@ -331,6 +336,17 @@ void HandleBOR_SIMULATE(std::string BinPath, std::string CalibFile, std::string 
 				decd.getInfo(BinPath, "p");
 				decd.Print();
 				mddec = decd.mass / 1000.;
+				break;
+			case 5:
+				seqdec = kTRUE;
+				printf("\nSequential alpha decay!\n\n");
+				seqdecN = 2;
+				decB.getInfo(BinPath, B.N - 2, B.Z - 2);
+				decB.Print();
+				mBdec = decB.mass / 1000.;
+				decc.getInfo(BinPath, 2, 2);
+				decc.Print();
+				mcdec = decc.mass / 1000.;
 				break;
 			default:
 				seqdec = kFALSE;

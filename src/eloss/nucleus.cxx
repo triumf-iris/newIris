@@ -15,6 +15,7 @@ nucleus::nucleus()
 	Sn = 0.;
 	S2p = 0.;
 	S2n = 0.;
+	Sa = 0.;
 	EL.Clear();
 }
 void nucleus::Clear()
@@ -28,6 +29,7 @@ void nucleus::Clear()
 	Sn = 0.;
 	S2p = 0.;
 	S2n = 0.;
+	Sa = 0.;
 	EL.Clear();
 }
 
@@ -108,7 +110,7 @@ void nucleus::ReadFile(std::string binpath, int inputA, std::string inpEl)
 		exit(0);
 	}
 
-	std::string cA1, cEl1, cS2n, cS2p;
+	std::string cA1, cEl1, cS2n, cS2p, cSa;
 	int A1 = -1;
 
 	while (!feof(rctfile1))
@@ -124,6 +126,8 @@ void nucleus::ReadFile(std::string binpath, int inputA, std::string inpEl)
 		cS2n.erase(std::remove_if(cS2n.begin(), cS2n.end(), ::isspace), cS2n.end());
 		cS2p.assign(buffer + 32, buffer + 40);
 		cS2p.erase(std::remove_if(cS2p.begin(), cS2p.end(), ::isspace), cS2p.end());
+		cSa.assign(buffer + 49, buffer + 58);
+		cSa.erase(std::remove_if(cSa.begin(), cSa.end(), ::isspace), cSa.end());
 		sscanf(cA1.data(), "%d", &A1);
 		if (cS2n == "*")
 			S2n = 0.;
@@ -133,11 +137,16 @@ void nucleus::ReadFile(std::string binpath, int inputA, std::string inpEl)
 			S2p = 0.;
 		else
 			sscanf(cS2p.data(), "%lf", &S2p);
+		if (cSa == "*")
+			Sa = 0.;
+		else
+			sscanf(cSa.data(), "%lf", &Sa);
 		if (A1 == inputA && cEl1 == inpEl)
 		{
 			S2n = S2n / 1000.;
 			S2p = S2p / 1000.;
-			// printf("\tS(2p)=%.3lf\tS(2n)=%.3lf\n",S2p,S2n);
+			Sa = -1.*Sa / 1000.; //convert Q(a) to S(a)
+			// printf("\tS(2p)=%.3lf\tS(2n)=%.3lf\tS(a)=%.3lf\n",S2p,S2n,Sa);
 			break;
 		}
 	}
@@ -199,7 +208,7 @@ void nucleus::getInfo(std::string binpath, int inputN, int inputZ)
 	}
 	else
 	{
-		massfilename = massfilename + "ame/mass.mas12";
+		massfilename = binpath + "ame/mass.mas12";
 	}
 
 	int inputA = inputN + inputZ;
@@ -287,6 +296,6 @@ void nucleus::Print() const
 {
 	printf("====\t%s\t====\n", name.data());
 	printf("N=%d\tZ=%d\tA=%d\tmass=%lf\n", N, Z, A, mass);
-	printf("S(p)=%lf\tS(n)=%lf\tS(2p)=%lf\tS(2n)=%lf\n\n", Sp, Sn, S2p, S2n);
+	printf("S(p)=%lf\tS(n)=%lf\tS(2p)=%lf\tS(2n)=%lf\tS(a)=%lf\n\n", Sp, Sn, S2p, S2n, Sa);
 	return;
 }
