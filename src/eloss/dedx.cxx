@@ -146,12 +146,11 @@ void dedx::makeCatimaTables(int projectileA, int projectileZ, std::string foil, 
 
 	for (const auto &[irisMat, catMat] : materialMap)
 	{
-
 		for (int i = 0; i < 100; i++)
 		{
-			auto result = catima::calculate(projectile(energy[i]), catMat);
-			e[i] = energy[i] * mass / 1000. / 0.931494061;
-			dedx[i] = result.dEdxi / 1000.;
+			auto result = catima::calculate(projectile(energy[i]), catMat); //output: MeV/g/cm^2
+			e[i] = energy[i] * mass / 1000. / 0.931494061; // convert MeV/u to MeV
+			dedx[i] = result.dEdxi / 1000.; // convert MeV/g/cm^2 to MeV/mg/cm^2
 		}
 		tables.emplace(irisMat, make_pair(e, dedx));
 	}
