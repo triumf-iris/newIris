@@ -19,6 +19,7 @@ public:
 	double Sn;
 	double S2p;
 	double S2n;
+	double Sa; //alpha separation energy
 	dedx EL;
 
 	// virtual void ReadCalibPar(char* line);
