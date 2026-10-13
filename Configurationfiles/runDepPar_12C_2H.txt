@@ -7,9 +7,9 @@ b=2H
 //Q=0
 ICMIN=0
 ICMAX=4000
-R1=0.0		// keV, beam like particle excitation energy for sim	
-W1=0.0		// keV, width of resonance for sim
-R2=0.0		// keV, target like particle excitation energy for sim
-W2=0.0		// keV, width of resonance for sim
+R1=0.0		// MeV, beam like particle excitation energy for sim	
+W1=0.0		// MeV, width of resonance for sim
+R2=0.0		// MeV, target like particle excitation energy for sim
+W2=0.0		// MeV, width of resonance for sim
 SHT=1		//reaction on target 1=yes
 foil=107Ag	
