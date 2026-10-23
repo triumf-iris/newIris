@@ -671,7 +671,7 @@ void HandlePHYSICS()
 
 				energy = energy + elossFi(lej, energy, 0.1 * 2.35 * 0.5 / cosTheta, IrisMaterial::B);	 // boron junction implant
 				energy = energy + elossFi(lej, energy, 0.1 * 2.7 * 0.3 / cosTheta, IrisMaterial::Al);	 // first metal
-				energy = energy + elossFi(lej, energy, 0.1 * 2.65 * 3.5 / cosTheta, IrisMaterial::SiO2); // SiO2
+				energy = energy + elossFi(lej, energy, 0.1 * 2.32 * 3.5 / cosTheta, IrisMaterial::SiO2); // SiO2
 				energy = energy + elossFi(lej, energy, 0.1 * 2.7 * 1.5 / cosTheta, IrisMaterial::Al);	 // second metal
 
 				// target/foil Orientation
@@ -842,7 +842,7 @@ void HandlePHYSICS()
 
 				energy = energy + elossFi(hej, energy, 0.1 * 2.35 * 0.5 / cosTheta, IrisMaterial::B);	 // boron junction implant
 				energy = energy + elossFi(hej, energy, 0.1 * 2.7 * 0.3 / cosTheta, IrisMaterial::Al);	 // first metal
-				energy = energy + elossFi(hej, energy, 0.1 * 2.65 * 3.5 / cosTheta, IrisMaterial::SiO2); // SiO2
+				energy = energy + elossFi(hej, energy, 0.1 * 2.32 * 3.5 / cosTheta, IrisMaterial::SiO2); // SiO2
 				energy = energy + elossFi(hej, energy, 0.1 * 2.7 * 1.5 / cosTheta, IrisMaterial::Al);	 // second metal
 
 				// target/foil Orientation
