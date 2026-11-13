@@ -98,7 +98,7 @@ $(LIBDIR)/libIRISSim.so: $(OBJECTDIR)/PTrack.o $(OBJECTDIR)/IRISHit.o $(OBJECTDI
 	$(LD) $(SOFLAGS) $(LDFLAGS) $^ $(CATIMALIBDIR) $(ROOTGLIBS) $(CATIMALIBS) -o $@
 	@echo "$@ done"
 
-$(LIBDIR)/libIRISELoss.so: $(OBJECTDIR)/nucleus.o $(OBJECTDIR)/dedx.o $(OBJECTDIR)/eloss.o
+$(LIBDIR)/libIRISELoss.so: $(OBJECTDIR)/nucleus.o $(OBJECTDIR)/dedx.o $(OBJECTDIR)/eloss.o $(OBJECTDIR)/IrisDetector.o
 	$(LD) $(SOFLAGS) $(LDFLAGS) $^ $(CATIMALIBDIR) $(ROOTGLIBS) $(CATIMALIBS) -o $@
 	@echo "$@ done"
 
@@ -157,6 +157,9 @@ $(OBJECTDIR)/dedx.o: $(ELOSSDIR)/dedx.cxx
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 $(OBJECTDIR)/nucleus.o: $(ELOSSDIR)/nucleus.cxx
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+$(OBJECTDIR)/IrisDetector.o: $(ELOSSDIR)/IrisDetector.cxx
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 $(OBJECTDIR)/HandleSIMULATE.o: $(SIMDIR)/HandleSIMULATE.cxx
